@@ -51,7 +51,7 @@
           Chunk <span class="m-thin">struct</span>
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="chunk_8h.html">&lt;chunk.h&gt;</a></div>
         </h1>
-        <p>Stores series of opcode in a chunk in the form of a dynamic array.</p>
+        <p>Dynamic array of opcodes. An array is considered a &#x27;<a href="structChunk.html" class="m-doc">Chunk</a>&#x27; of the larger bytecode program.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -76,6 +76,14 @@
             <dd><span></span></dd>
             <dt id="a3bd97432faba57c9187c7d264995b33f">
               uint8_t* <a href="#a3bd97432faba57c9187c7d264995b33f" class="m-doc-self">code</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a43089a3cc04dc05e34ce2141c8077037">
+              size_t* <a href="#a43089a3cc04dc05e34ce2141c8077037" class="m-doc-self">lines</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a6ef3ac2a64667a4635b414daca1196af">
+              <a href="structValueArray.html" class="m-doc">ValueArray</a> <a href="#a6ef3ac2a64667a4635b414daca1196af" class="m-doc-self">constants</a>
             </dt>
             <dd><span></span></dd>
           </dl>

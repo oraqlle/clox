@@ -50,7 +50,7 @@
         <h1>
           memory.h <span class="m-thin">file</span>
         </h1>
-        <p>Memory management facilitis for internal types and VM.</p>
+        <p>Memory management facilitis for internal types and <a href="structVM.html" class="m-doc">VM</a>.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -71,7 +71,7 @@
               size_t oldSize,
               size_t newSize) -&gt; void*</span>
             </dt>
-            <dd>Single heap memory management function for VM.</dd>
+            <dd>Single heap memory management function for <a href="structVM.html" class="m-doc">VM</a>.</dd>
           </dl>
         </section>
         <section id="define-members">
@@ -80,20 +80,20 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a href="#ad3f26420257fbc4c78eece0f473860c2" class="m-doc">GROW_CAPACITY</a>(</span><span class="m-doc-wrap">capacity)</span>
             </dt>
-            <dd>Growth algorithm for <code><a href="structChunk.html" class="m-doc">Chunk</a></code>.</dd>
+            <dd>Growth algorithm for dynamic array types.</dd>
             <dt id="a535c54c8dcb6e740b47e09ee33c07f8f">
               <span class="m-doc-wrap-bumper">#define <a href="#a535c54c8dcb6e740b47e09ee33c07f8f" class="m-doc-self">GROW_ARRAY</a>(</span><span class="m-doc-wrap">type,
               pointer,
               oldCount,
               newCount)</span>
             </dt>
-            <dd>Makes <code><a href="memory_8h.html#a013d1424390131ba996596cd20c70ce2" class="m-doc">reallocate()</a></code> less cumbersome to use for growthing a <code><a href="structChunk.html" class="m-doc">Chunk</a></code>.</dd>
+            <dd>Grows a dynamic array using <code><a href="memory_8h.html#a013d1424390131ba996596cd20c70ce2" class="m-doc">reallocate()</a></code>.</dd>
             <dt id="a3b69129733a4bd10f3c5726e4ea6e518">
               <span class="m-doc-wrap-bumper">#define <a href="#a3b69129733a4bd10f3c5726e4ea6e518" class="m-doc-self">FREE_ARRAY</a>(</span><span class="m-doc-wrap">type,
               pointer,
               oldCount)</span>
             </dt>
-            <dd>Makes free operations with <code><a href="memory_8h.html#a013d1424390131ba996596cd20c70ce2" class="m-doc">reallocate()</a></code> less cumbersome for <code>Chunks</code>.</dd>
+            <dd>Frees a dynamic array using <code><a href="memory_8h.html#a013d1424390131ba996596cd20c70ce2" class="m-doc">reallocate()</a></code>.</dd>
           </dl>
         </section>
         <section>
@@ -102,8 +102,8 @@
             <h3>
               <span class="m-doc-wrap-bumper">#define <a href="#ad3f26420257fbc4c78eece0f473860c2" class="m-doc-self">GROW_CAPACITY</a>(</span><span class="m-doc-wrap">capacity)</span>
             </h3>
-            <p>Growth algorithm for <code><a href="structChunk.html" class="m-doc">Chunk</a></code>.</p>
-<p>Immediately bumps capacity value to 8 if previous capacity is less than 8 to avoid repeated, small allocations early in a <code>Chunks</code> lifecycle.</p>
+            <p>Growth algorithm for dynamic array types.</p>
+<p>Immediately bumps capacity value to 8 if previous capacity is less than 8 to avoid repeated, small allocations early in a dynamic array&#x27;s lifecycle.</p>
           </div></section>
         </section>
       </div>

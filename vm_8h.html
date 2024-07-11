@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>chunk.h file | clox</title>
+  <title>vm.h file | clox</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -48,9 +48,9 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          chunk.h <span class="m-thin">file</span>
+          vm.h <span class="m-thin">file</span>
         </h1>
-        <p>Bytecode representation of Lox.</p>
+        <p><a href="structVM.html" class="m-doc">VM</a> structures and facilities.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -60,6 +60,7 @@
                 <li><a href="#nested-classes">Classes</a></li>
                 <li><a href="#enum-members">Enums</a></li>
                 <li><a href="#func-members">Functions</a></li>
+                <li><a href="#define-members">Defines</a></li>
               </ul>
             </li>
           </ul>
@@ -68,48 +69,56 @@
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              struct <a href="structChunk.html" class="m-doc">Chunk</a>
+              struct <a href="structVM.html" class="m-doc">VM</a>
             </dt>
-            <dd>Dynamic array of opcodes. An array is considered a &#x27;<a href="structChunk.html" class="m-doc">Chunk</a>&#x27; of the larger bytecode program.</dd>
+            <dd><a href="structVM.html" class="m-doc">VM</a> structure.</dd>
           </dl>
         </section>
         <section id="enum-members">
           <h2><a href="#enum-members">Enums</a></h2>
           <dl class="m-doc">
-            <dt id="abeb7dfb0e9e2b3114e240a405d046ea7">
-              <span class="m-doc-wrap-bumper">enum <a href="#abeb7dfb0e9e2b3114e240a405d046ea7" class="m-doc-self">OpCode</a> { </span><span class="m-doc-wrap"><a href="#abeb7dfb0e9e2b3114e240a405d046ea7a0aae8bd3e44dcbe18dcd011ea16f7d3c" class="m-doc">OP_CONSTANT</a>,
-              <a href="#abeb7dfb0e9e2b3114e240a405d046ea7a96186829480e5b34b1373288e956b1c8" class="m-doc">OP_ADD</a>,
-              <a href="#abeb7dfb0e9e2b3114e240a405d046ea7adedf7e5a9b5ff1438fc168f1ceb9acc2" class="m-doc">OP_SUBTRACT</a>,
-              <a href="#abeb7dfb0e9e2b3114e240a405d046ea7a53859d69b6be506aaa34bcde305e3508" class="m-doc">OP_MULTIPLY</a>,
-              <a href="#abeb7dfb0e9e2b3114e240a405d046ea7a78a61af8bcdaef135491c842df4c2b83" class="m-doc">OP_DIVIDE</a>,
-              <a href="#abeb7dfb0e9e2b3114e240a405d046ea7a24efa62543d37080a32e43b653c343dc" class="m-doc">OP_NEGATE</a>,
-              <a href="#abeb7dfb0e9e2b3114e240a405d046ea7ad436c18b194473f5ec64c28b774e41b3" class="m-doc">OP_RETURN</a> }</span>
+            <dt id="ae453361dc2e923fa0f59b0fad099ff8e">
+              <span class="m-doc-wrap-bumper">enum <a href="#ae453361dc2e923fa0f59b0fad099ff8e" class="m-doc-self">InterpreterResult</a> { </span><span class="m-doc-wrap"><a href="#ae453361dc2e923fa0f59b0fad099ff8ea9b20a2a1b39d2a699317c83114d6db3d" class="m-doc">INTERPRETER_OK</a>,
+              <a href="#ae453361dc2e923fa0f59b0fad099ff8ea0053bbd82b63e4451af8832f52cf0d0c" class="m-doc">INTERPRETER_COMPILE_ERR</a>,
+              <a href="#ae453361dc2e923fa0f59b0fad099ff8ea18be005d6fee6bc24b37e258746bc4c5" class="m-doc">INTERPRETER_RUNTIME_ERR</a> }</span>
             </dt>
-            <dd>Bytecode opcode values.</dd>
+            <dd>Return codes for <a href="structVM.html" class="m-doc">VM</a>.</dd>
           </dl>
         </section>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
-            <dt id="a6fb4c9316c5daf0ff4bd05af12e31849">
-              <span class="m-doc-wrap-bumper">void <a href="#a6fb4c9316c5daf0ff4bd05af12e31849" class="m-doc-self">initChunk</a>(</span><span class="m-doc-wrap"><a href="structChunk.html" class="m-doc">Chunk</a>* chunk)</span>
+            <dt id="a04d089dd8cfc3a2d250a7993615b015a">
+              <span class="m-doc-wrap-bumper">void <a href="#a04d089dd8cfc3a2d250a7993615b015a" class="m-doc-self">initVM</a>(</span><span class="m-doc-wrap"><a href="structVM.html" class="m-doc">VM</a>* vm)</span>
             </dt>
-            <dd>Initialize chunk.</dd>
-            <dt id="ad76e988b11fefa45e22882235da694e8">
-              <span class="m-doc-wrap-bumper">void <a href="#ad76e988b11fefa45e22882235da694e8" class="m-doc-self">writeChunk</a>(</span><span class="m-doc-wrap"><a href="structChunk.html" class="m-doc">Chunk</a>* chunk,
-              uint8_t byte,
-              size_t line)</span>
+            <dd>Initialize <a href="structVM.html" class="m-doc">VM</a> instance.</dd>
+            <dt id="a8e0d4436ac53a26d6c67ebe0d120be75">
+              <span class="m-doc-wrap-bumper">void <a href="#a8e0d4436ac53a26d6c67ebe0d120be75" class="m-doc-self">freeVM</a>(</span><span class="m-doc-wrap"><a href="structVM.html" class="m-doc">VM</a>* vm)</span>
             </dt>
-            <dd>Append new opcode byte to chunk.</dd>
-            <dt id="ac4080f0d4c2fb19c6bdf453ed9df02b3">
-              <span class="m-doc-wrap-bumper">auto <a href="#ac4080f0d4c2fb19c6bdf453ed9df02b3" class="m-doc-self">addConstant</a>(</span><span class="m-doc-wrap"><a href="structChunk.html" class="m-doc">Chunk</a>* chunk,
-              <a href="value_8h.html#a566a00621638570a4186414035153a2e" class="m-doc">Value</a> value) -&gt; uint8_t</span>
+            <dd>Cleans up <a href="structVM.html" class="m-doc">VM</a> instance.</dd>
+            <dt id="a56c99d0fe95262d44309cab68405e5ac">
+              <span class="m-doc-wrap-bumper">auto <a href="#a56c99d0fe95262d44309cab68405e5ac" class="m-doc-self">interpret</a>(</span><span class="m-doc-wrap"><a href="structVM.html" class="m-doc">VM</a>* vm,
+              <a href="structChunk.html" class="m-doc">Chunk</a>* chunk) -&gt; <a href="vm_8h.html#ae453361dc2e923fa0f59b0fad099ff8e" class="m-doc">InterpreterResult</a></span>
             </dt>
-            <dd>Adds constant to bytecode chunk&#x27;s value pool.</dd>
-            <dt id="ad8d91576259f317ef240aad402880875">
-              <span class="m-doc-wrap-bumper">void <a href="#ad8d91576259f317ef240aad402880875" class="m-doc-self">freeChunk</a>(</span><span class="m-doc-wrap"><a href="structChunk.html" class="m-doc">Chunk</a>* chunk)</span>
+            <dd>Interprets a chunk of bytecode.</dd>
+            <dt id="ad65b570a8cd854f362f367c7bc6b8ae2">
+              <span class="m-doc-wrap-bumper">void <a href="#ad65b570a8cd854f362f367c7bc6b8ae2" class="m-doc-self">push</a>(</span><span class="m-doc-wrap"><a href="structVM.html" class="m-doc">VM</a>* vm,
+              <a href="value_8h.html#a566a00621638570a4186414035153a2e" class="m-doc">Value</a> value)</span>
             </dt>
-            <dd>Frees chunk.</dd>
+            <dd>Push to <a href="structVM.html" class="m-doc">VM</a> stack.</dd>
+            <dt id="acd38d493a3c57180a691af36072c3478">
+              <span class="m-doc-wrap-bumper">auto <a href="#acd38d493a3c57180a691af36072c3478" class="m-doc-self">pop</a>(</span><span class="m-doc-wrap"><a href="structVM.html" class="m-doc">VM</a>* vm) -&gt; <a href="value_8h.html#a566a00621638570a4186414035153a2e" class="m-doc">Value</a></span>
+            </dt>
+            <dd>Pop top value from <a href="structVM.html" class="m-doc">VM</a> stack.</dd>
+          </dl>
+        </section>
+        <section id="define-members">
+          <h2><a href="#define-members">Defines</a></h2>
+          <dl class="m-doc">
+            <dt id="a27b296fccb4da1e9cfcf1f9c810e619e">
+              <span class="m-doc-wrap-bumper">#define <a href="#a27b296fccb4da1e9cfcf1f9c810e619e" class="m-doc-self">STACK_MAX</a></span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
       </div>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>chunk.h file | clox</title>
+  <title>value.h file | clox</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -48,9 +48,9 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          chunk.h <span class="m-thin">file</span>
+          value.h <span class="m-thin">file</span>
         </h1>
-        <p>Bytecode representation of Lox.</p>
+        <p>Types and structures for values in Lox.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -58,7 +58,7 @@
               Reference
               <ul>
                 <li><a href="#nested-classes">Classes</a></li>
-                <li><a href="#enum-members">Enums</a></li>
+                <li><a href="#typedef-members">Typedefs</a></li>
                 <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
@@ -68,48 +68,40 @@
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              struct <a href="structChunk.html" class="m-doc">Chunk</a>
+              struct <a href="structValueArray.html" class="m-doc">ValueArray</a>
             </dt>
-            <dd>Dynamic array of opcodes. An array is considered a &#x27;<a href="structChunk.html" class="m-doc">Chunk</a>&#x27; of the larger bytecode program.</dd>
+            <dd>Dynamic array of values.</dd>
           </dl>
         </section>
-        <section id="enum-members">
-          <h2><a href="#enum-members">Enums</a></h2>
+        <section id="typedef-members">
+          <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
-            <dt id="abeb7dfb0e9e2b3114e240a405d046ea7">
-              <span class="m-doc-wrap-bumper">enum <a href="#abeb7dfb0e9e2b3114e240a405d046ea7" class="m-doc-self">OpCode</a> { </span><span class="m-doc-wrap"><a href="#abeb7dfb0e9e2b3114e240a405d046ea7a0aae8bd3e44dcbe18dcd011ea16f7d3c" class="m-doc">OP_CONSTANT</a>,
-              <a href="#abeb7dfb0e9e2b3114e240a405d046ea7a96186829480e5b34b1373288e956b1c8" class="m-doc">OP_ADD</a>,
-              <a href="#abeb7dfb0e9e2b3114e240a405d046ea7adedf7e5a9b5ff1438fc168f1ceb9acc2" class="m-doc">OP_SUBTRACT</a>,
-              <a href="#abeb7dfb0e9e2b3114e240a405d046ea7a53859d69b6be506aaa34bcde305e3508" class="m-doc">OP_MULTIPLY</a>,
-              <a href="#abeb7dfb0e9e2b3114e240a405d046ea7a78a61af8bcdaef135491c842df4c2b83" class="m-doc">OP_DIVIDE</a>,
-              <a href="#abeb7dfb0e9e2b3114e240a405d046ea7a24efa62543d37080a32e43b653c343dc" class="m-doc">OP_NEGATE</a>,
-              <a href="#abeb7dfb0e9e2b3114e240a405d046ea7ad436c18b194473f5ec64c28b774e41b3" class="m-doc">OP_RETURN</a> }</span>
+            <dt id="a566a00621638570a4186414035153a2e">
+              using <a href="#a566a00621638570a4186414035153a2e" class="m-doc-self">Value</a> = double
             </dt>
-            <dd>Bytecode opcode values.</dd>
+            <dd>Type alias for numerics values.</dd>
           </dl>
         </section>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
-            <dt id="a6fb4c9316c5daf0ff4bd05af12e31849">
-              <span class="m-doc-wrap-bumper">void <a href="#a6fb4c9316c5daf0ff4bd05af12e31849" class="m-doc-self">initChunk</a>(</span><span class="m-doc-wrap"><a href="structChunk.html" class="m-doc">Chunk</a>* chunk)</span>
+            <dt id="a6b3e6aaa3c61222073b87c5c033c9370">
+              <span class="m-doc-wrap-bumper">void <a href="#a6b3e6aaa3c61222073b87c5c033c9370" class="m-doc-self">initValueArray</a>(</span><span class="m-doc-wrap"><a href="structValueArray.html" class="m-doc">ValueArray</a>* array)</span>
             </dt>
-            <dd>Initialize chunk.</dd>
-            <dt id="ad76e988b11fefa45e22882235da694e8">
-              <span class="m-doc-wrap-bumper">void <a href="#ad76e988b11fefa45e22882235da694e8" class="m-doc-self">writeChunk</a>(</span><span class="m-doc-wrap"><a href="structChunk.html" class="m-doc">Chunk</a>* chunk,
-              uint8_t byte,
-              size_t line)</span>
+            <dd>Initialize <a href="structValueArray.html" class="m-doc">ValueArray</a>.</dd>
+            <dt id="a38e75520b9468a64c7bf5ada90e017c2">
+              <span class="m-doc-wrap-bumper">void <a href="#a38e75520b9468a64c7bf5ada90e017c2" class="m-doc-self">writeValueArray</a>(</span><span class="m-doc-wrap"><a href="structValueArray.html" class="m-doc">ValueArray</a>* array,
+              <a href="value_8h.html#a566a00621638570a4186414035153a2e" class="m-doc">Value</a> value)</span>
             </dt>
-            <dd>Append new opcode byte to chunk.</dd>
-            <dt id="ac4080f0d4c2fb19c6bdf453ed9df02b3">
-              <span class="m-doc-wrap-bumper">auto <a href="#ac4080f0d4c2fb19c6bdf453ed9df02b3" class="m-doc-self">addConstant</a>(</span><span class="m-doc-wrap"><a href="structChunk.html" class="m-doc">Chunk</a>* chunk,
-              <a href="value_8h.html#a566a00621638570a4186414035153a2e" class="m-doc">Value</a> value) -&gt; uint8_t</span>
+            <dd>Append new value to <a href="structValueArray.html" class="m-doc">ValueArray</a>.</dd>
+            <dt id="a0c97a46aa82855c0fdc378ab019c5838">
+              <span class="m-doc-wrap-bumper">void <a href="#a0c97a46aa82855c0fdc378ab019c5838" class="m-doc-self">freeValueArray</a>(</span><span class="m-doc-wrap"><a href="structValueArray.html" class="m-doc">ValueArray</a>* array)</span>
             </dt>
-            <dd>Adds constant to bytecode chunk&#x27;s value pool.</dd>
-            <dt id="ad8d91576259f317ef240aad402880875">
-              <span class="m-doc-wrap-bumper">void <a href="#ad8d91576259f317ef240aad402880875" class="m-doc-self">freeChunk</a>(</span><span class="m-doc-wrap"><a href="structChunk.html" class="m-doc">Chunk</a>* chunk)</span>
+            <dd>Frees <a href="structValueArray.html" class="m-doc">ValueArray</a>.</dd>
+            <dt id="a82c711c20ecc604872af80107c561375">
+              <span class="m-doc-wrap-bumper">void <a href="#a82c711c20ecc604872af80107c561375" class="m-doc-self">printValue</a>(</span><span class="m-doc-wrap"><a href="value_8h.html#a566a00621638570a4186414035153a2e" class="m-doc">Value</a> value)</span>
             </dt>
-            <dd>Frees chunk.</dd>
+            <dd>Prints Value.</dd>
           </dl>
         </section>
       </div>
