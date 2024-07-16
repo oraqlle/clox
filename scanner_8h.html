@@ -58,6 +58,7 @@
               Reference
               <ul>
                 <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#enum-members">Enums</a></li>
                 <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
@@ -70,6 +71,58 @@
               struct <a href="structScanner.html" class="m-doc">Scanner</a>
             </dt>
             <dd><a href="structScanner.html" class="m-doc">Scanner</a> object used to store state of current scan pass.</dd>
+            <dt>
+              struct <a href="structToken.html" class="m-doc">Token</a>
+            </dt>
+            <dd><a href="structToken.html" class="m-doc">Token</a> type.</dd>
+          </dl>
+        </section>
+        <section id="enum-members">
+          <h2><a href="#enum-members">Enums</a></h2>
+          <dl class="m-doc">
+            <dt id="aa520fbf142ba1e7e659590c07da31921">
+              <span class="m-doc-wrap-bumper">enum <a href="#aa520fbf142ba1e7e659590c07da31921" class="m-doc-self">TokenType</a> { </span><span class="m-doc-wrap"><a href="#aa520fbf142ba1e7e659590c07da31921ab958e67632477fb20b223edfef5a4a3f" class="m-doc">TOKEN_LEFT_PAREN</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a7db8f1fe352e6cf1ed6b880432b585d5" class="m-doc">TOKEN_RIGHT_PAREN</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921abb75564bfe995225a6d177446540c352" class="m-doc">TOKEN_LEFT_BRACE</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a1c897c05771e2ebb01729d415d99308c" class="m-doc">TOKEN_RIGHT_BRACE</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a8d265e17914bc733c8b9a880dd097a9e" class="m-doc">TOKEN_COMMA</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921ab565ebfaaa53dcee6ddda201e270733e" class="m-doc">TOKEN_DOT</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a160171b541dcf45a3bd712598963ea39" class="m-doc">TOKEN_MINUS</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a7f0601b40fea37f0d4598b0a61f828f2" class="m-doc">TOKEN_PLUS</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921ac8c74b281e178c87923363a90f6ff371" class="m-doc">TOKEN_SEMICOLON</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a7bb488da02f984b2c055687da13856e2" class="m-doc">TOKEN_SLASH</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a1109083cbeff0c33b619eb9b3177940a" class="m-doc">TOKEN_STAR</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a48b74bd21671b5a4a713dd8ddf57c917" class="m-doc">TOKEN_BANG</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a0aeb9876a0943fd2d317b76bf85390d7" class="m-doc">TOKEN_BANG_EQUAL</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a3c83b3f347ded187c65076c9172392c3" class="m-doc">TOKEN_EQUAL</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a032a850df3c86813b0101759a048a9e0" class="m-doc">TOKEN_EQUAL_EQUAL</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a26294e5319f682b3754d00e5eb852d58" class="m-doc">TOKEN_GREATER</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a1b6033f79dc23f23aaf67708bd792991" class="m-doc">TOKEN_GREATER_EQUAL</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921af3b6b55f0763013561f302e1a467754f" class="m-doc">TOKEN_LESS</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a9618ea497ab02a326b67f03606d8f90f" class="m-doc">TOKEN_LESS_EQUAL</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a77b8cd6178f08686df07925a2cbac353" class="m-doc">TOKEN_IDENTIFIER</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921afcaa8f23ed1d21aa5779451ed3c243ef" class="m-doc">TOKEN_STRING</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921ab2af03662d780038284bc9c09e11c452" class="m-doc">TOKEN_NUMBER</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a7203710f75ffd67d36a92024eca9b4ab" class="m-doc">TOKEN_AND</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a710fd04fc31582717222d447b5985a1f" class="m-doc">TOKEN_CLASS</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921af1444e318c1d452a3c6dbb924a7e932a" class="m-doc">TOKEN_ELSE</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a6aaf2e9d817fd7cd807c6fc2f6f6fe5c" class="m-doc">TOKEN_FALSE</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921aaca94097ec53cbcf93cdc0a493251040" class="m-doc">TOKEN_FOR</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921abc053e7f95bf8a2e05cdb5b16d475bc2" class="m-doc">TOKEN_FUN</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a6d39f93a351e0b853977018d48c47ca2" class="m-doc">TOKEN_IF</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a65ca43defed032f2f0bfb05a9c1875f2" class="m-doc">TOKEN_NIL</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921af82eae34ce15da4d9e334b9a2e3b5675" class="m-doc">TOKEN_OR</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a0c553e5a5155f551dccc327cf9dff336" class="m-doc">TOKEN_PRINT</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921ae52dd0b54e9522dc1dce5f6294f26b08" class="m-doc">TOKEN_RETURN</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a1217e03cafd8282f9f0cf7709f6b04b1" class="m-doc">TOKEN_SUPER</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921af902561d021c19798c960f45d013575b" class="m-doc">TOKEN_THIS</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a2dd89e6192a4d3a7aee35c99a5f88075" class="m-doc">TOKEN_TRUE</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921a7a01d5885def4a924f815ab4afdb477b" class="m-doc">TOKEN_VAR</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921acc13b68e6911dd0080248030ecb95cd6" class="m-doc">TOKEN_WHILE</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921abbfc577192f2423b39a5f693e260b615" class="m-doc">TOKEN_ERROR</a>,
+              <a href="#aa520fbf142ba1e7e659590c07da31921aa130df27256cd45f5781fc74deeb50dc" class="m-doc">TOKEN_EOF</a> }</span>
+            </dt>
+            <dd><a href="structToken.html" class="m-doc">Token</a> type enum.</dd>
           </dl>
         </section>
         <section id="func-members">
@@ -80,6 +133,10 @@
               const char* source)</span>
             </dt>
             <dd>Initializes <a href="structScanner.html" class="m-doc">Scanner</a>.</dd>
+            <dt id="a374b107fa8487a52cdfde07284456c72">
+              <span class="m-doc-wrap-bumper">auto <a href="#a374b107fa8487a52cdfde07284456c72" class="m-doc-self">scanToken</a>(</span><span class="m-doc-wrap"><a href="structScanner.html" class="m-doc">Scanner</a>* scanner) -&gt; <a href="structToken.html" class="m-doc">Token</a></span>
+            </dt>
+            <dd>Produces next token from source string pointed to by scanner.</dd>
           </dl>
         </section>
       </div>

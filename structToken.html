@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>clox</title>
+  <title>Token struct | clox</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -32,7 +32,7 @@
             </li>
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="2">
-            <li><a href="annotated.html" id="m-navbar-current">Classes</a></li>
+            <li><a href="annotated.html">Classes</a></li>
             <li><a href="files.html">Files</a></li>
             <li class="m-show-m"><a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path" />
@@ -47,30 +47,43 @@
   <div class="m-container m-container-inflatable">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <h1>Classes</h1>
-        <ul class="m-doc">
-          <li>struct <a href="structChunk.html" class="m-doc">Chunk</a> <span class="m-doc">Dynamic array of opcodes. An array is considered a &#x27;<a href="structChunk.html" class="m-doc">Chunk</a>&#x27; of the larger bytecode program.</span></li>
-          <li>struct <a href="structScanner.html" class="m-doc">Scanner</a> <span class="m-doc"><a href="structScanner.html" class="m-doc">Scanner</a> object used to store state of current scan pass.</span></li>
-          <li>struct <a href="structToken.html" class="m-doc">Token</a> <span class="m-doc"><a href="structToken.html" class="m-doc">Token</a> type.</span></li>
-          <li>struct <a href="structValueArray.html" class="m-doc">ValueArray</a> <span class="m-doc">Dynamic array of values.</span></li>
-          <li>struct <a href="structVM.html" class="m-doc">VM</a> <span class="m-doc"><a href="structVM.html" class="m-doc">VM</a> structure.</span></li>
-        </ul>
-        <script>
-        function toggle(e) {
-            e.parentElement.className = e.parentElement.className == 'm-doc-collapsible' ?
-                'm-doc-expansible' : 'm-doc-collapsible';
-            return false;
-        }
-        /* Collapse all nodes marked as such. Doing it via JS instead of
-           directly in markup so disabling it doesn't harm usability. The list
-           is somehow regenerated on every iteration and shrinks as I change
-           the classes. It's not documented anywhere and I'm not sure if this
-           is the same across browsers, so I am going backwards in that list to
-           be sure. */
-        var collapsed = document.getElementsByClassName("collapsed");
-        for(var i = collapsed.length - 1; i >= 0; --i)
-            collapsed[i].className = 'm-doc-expansible';
-        </script>
+        <h1>
+          Token <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="scanner_8h.html">&lt;scanner.h&gt;</a></div>
+        </h1>
+        <p><a href="structToken.html" class="m-doc">Token</a> type.</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#pub-attribs">Public variables</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a67919af9f3a80dc0b28a0ab1e6d5bf8a">
+              <a href="scanner_8h.html#aa520fbf142ba1e7e659590c07da31921" class="m-doc">TokenType</a> <a href="#a67919af9f3a80dc0b28a0ab1e6d5bf8a" class="m-doc-self">type</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ab4f9827407d8e41815c90c70fc5ab608">
+              const char* <a href="#ab4f9827407d8e41815c90c70fc5ab608" class="m-doc-self">start</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="abbb8424c1f538b331eacafaf116c1106">
+              size_t <a href="#abbb8424c1f538b331eacafaf116c1106" class="m-doc-self">length</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ae14e65a837b2c220dab76317bf1c7511">
+              size_t <a href="#ae14e65a837b2c220dab76317bf1c7511" class="m-doc-self">line</a>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
       </div>
     </div>
   </div>
