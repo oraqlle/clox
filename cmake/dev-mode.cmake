@@ -10,3 +10,5 @@ add_dependencies(run clox)
 
 include(cmake/lint-targets.cmake)
 include(cmake/spell-targets.cmake)
+
+add_subdirectory(tests)
