@@ -25,6 +25,7 @@ typedef struct ClassCompiler ClassCompiler;
 //#define NAN_BOXING
 
 #ifdef CLOX_DEVELOPER_MODE
+
 #undef DEBUG_TRACE_EXECUTION
 #define DEBUG_TRACE_EXECUTION
 
@@ -36,6 +37,7 @@ typedef struct ClassCompiler ClassCompiler;
 
 #undef DEBUG_LOG_GC
 #define DEBUG_LOG_GC
-#endif
+
+#endif // CLOX_DEVELOPER_MODE
 
 #endif // clox_common_h

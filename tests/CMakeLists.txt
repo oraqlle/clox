@@ -16,12 +16,12 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Catch2)
 
-add_executable(clox_tests test_builtin_input.cxx)
-target_compile_features(clox_tests PRIVATE cxx_std_17)
-target_link_libraries(clox_tests PRIVATE clox_lib)
-target_link_libraries(clox_tests PRIVATE Catch2::Catch2WithMain)
+add_executable(clox_test_builtin_input test_builtin_input.cxx)
+target_compile_features(clox_test_builtin_input PRIVATE cxx_std_17)
+target_link_libraries(clox_test_builtin_input PRIVATE clox_lib)
+target_link_libraries(clox_test_builtin_input PRIVATE Catch2::Catch2WithMain)
 
 list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 include(CTest)
 include(Catch)
-catch_discover_tests(clox_tests)
+catch_discover_tests(clox_test_builtin_input)
