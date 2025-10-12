@@ -8,6 +8,7 @@ set(
     -o "${PROJECT_BINARY_DIR}/coverage.info"
     -d "${PROJECT_BINARY_DIR}"
     --include "${PROJECT_SOURCE_DIR}/*"
+    --exclude "*/_deps/*"
     CACHE STRING
     "; separated command to generate a trace for the 'coverage' target"
 )
@@ -25,8 +26,15 @@ set(
 # ---- Coverage target ----
 
 add_custom_target(
-    coverage
+    cov
     COMMAND ${COVERAGE_TRACE_COMMAND}
     COMMENT "Generating coverage report"
+    VERBATIM
+)
+
+add_custom_target(
+    cov-html
+    COMMAND ${COVERAGE_HTML_COMMAND}
+    COMMENT "Generating HTML coverage report"
     VERBATIM
 )
