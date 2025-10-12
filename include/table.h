@@ -34,7 +34,7 @@ void freeTable(VM *vm, Compiler *compiler, Table *table);
 /**
  * @brief Inserts or sets key entry with value.
  *
- * @returns true when entry is inserted and fails when updated
+ * @returns true when entry is inserted and false when updated
  */
 bool tableSet(VM *vm, Compiler *compiler, Table *table, ObjString *key, Value value);
 

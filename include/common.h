@@ -22,7 +22,7 @@ typedef struct Compiler Compiler;
 // Forward declare ClassCompiler type
 typedef struct ClassCompiler ClassCompiler;
 
-#define NAN_BOXING
+//#define NAN_BOXING
 
 #ifdef CLOX_DEVELOPER_MODE
 #undef DEBUG_TRACE_EXECUTION

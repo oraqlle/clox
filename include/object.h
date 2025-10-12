@@ -146,12 +146,14 @@ struct ObjString {
  * @brief Lox internal representation of Upvalues using the Object System
  * such that values are hooked into the GC.
  */
-typedef struct {
+typedef struct ObjUpvalue ObjUpvalue;
+
+struct ObjUpvalue {
     Obj obj;
     Value *location;
     Value closed;
     struct ObjUpvalue *next;
-} ObjUpvalue;
+};
 
 /**
  * @brief Lox internal representation of closures
