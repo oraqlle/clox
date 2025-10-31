@@ -39,13 +39,16 @@
       }
     },
     {
-      "name": "std-tgt",
+      "name": "std",
       "description": "This preset makes sure the project actually builds with at least the specified standard",
       "hidden": true,
       "cacheVariables": {
         "CMAKE_C_EXTENSIONS": "OFF",
         "CMAKE_C_STANDARD": "99",
-        "CMAKE_C_STANDARD_REQUIRED": "ON"
+        "CMAKE_C_STANDARD_REQUIRED": "ON",
+        "CMAKE_CXX_EXTENSIONS": "OFF",
+        "CMAKE_CXX_STANDARD": "17",
+        "CMAKE_CXX_STANDARD_REQUIRED": "ON"
       }
     },
     {
@@ -53,7 +56,8 @@
       "description": "These flags are supported by both GCC and Clang",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_C_FLAGS": "-fstack-protector-strong -fcf-protection=full -fstack-clash-protection -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Werror=strict-prototypes -Wwrite-strings",
+        "CMAKE_C_FLAGS": "-fPIC -fprofile-arcs -ftest-coverage -fkeep-inline-functions -fkeep-static-functions -fstack-protector-strong -fcf-protection=full -fstack-clash-protection -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough  -Wwrite-strings",
+        "CMAKE_CXX_FLAGS": "-fPIC -fprofile-arcs -ftest-coverage -fkeep-inline-functions -fkeep-static-functions -fstack-protector-strong -fcf-protection=full -fstack-clash-protection -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough  -Wwrite-strings",
         "CMAKE_EXE_LINKER_FLAGS": "-Wl,--allow-shlib-undefined,--as-needed,-z,noexecstack,-z,relro,-z,now,-z,nodlopen",
         "CMAKE_SHARED_LINKER_FLAGS": "-Wl,--allow-shlib-undefined,--as-needed,-z,noexecstack,-z,relro,-z,now,-z,nodlopen"
       }
@@ -62,7 +66,8 @@
       "name": "flags-appleclang",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_C_FLAGS": "-fstack-protector-strong -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Werror=strict-prototypes -Wwrite-strings"
+        "CMAKE_C_FLAGS": "-fPIC -fprofile-arcs -ftest-coverage -fkeep-inline-functions -fkeep-static-functions -fstack-protector-strong -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough  -Wwrite-strings",
+        "CMAKE_CXX_FLAGS": "-fPIC -fprofile-arcs -ftest-coverage -fkeep-inline-functions -fkeep-static-functions -fstack-protector-strong -fcf-protection=full -fstack-clash-protection -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough  -Wwrite-strings"
       }
     },
     {
@@ -78,7 +83,7 @@
       "name": "linux",
       "inherits": [
           "flags-gcc-clang",
-          "std-tgt"
+          "std"
       ],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
@@ -86,19 +91,17 @@
     },
     {
       "name": "linux-dev",
-      "binaryDir": "${sourceDir}/build/linux-dev",
       "inherits": ["dev", "linux"]
     },
     {
       "name": "linux-dev-strict",
-      "binaryDir": "${sourceDir}/build/linux-dev-strict",
       "inherits": ["dev-scrict", "linux"]
     },
     {
       "name": "macos",
       "inherits": [
           "flags-appleclang",
-          "std-tgt"
+          "std"
       ],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
@@ -106,14 +109,13 @@
     },
     {
       "name": "macos-dev",
-      "binaryDir": "${sourceDir}/build/macos-dev",
       "inherits": ["dev", "macos"]
     },
     {
       "name": "win64",
       "inherits": [
           "flags-msvc",
-          "std-tgt"
+          "std"
       ],
       "architecture": "x64",
       "cacheVariables": {
@@ -123,7 +125,6 @@
     },
     {
       "name": "win64-dev",
-      "binaryDir": "${sourceDir}/build/win64-dev",
       "inherits": ["dev", "win64"],
       "environment": {
         "UseMultiToolTask": "true",
@@ -132,7 +133,6 @@
     },
     {
       "name": "sanitize",
-      "binaryDir": "${sourceDir}/build/sanitize",
       "inherits": [
           "linux",
           "dev"
@@ -144,12 +144,10 @@
     },
     {
       "name": "coverage",
-      "binaryDir": "${sourceDir}/build/coverage",
       "inherits": "linux-dev",
       "cacheVariables": {
-        "ENABLE_COVERAGE": "ON",
         "CMAKE_BUILD_TYPE": "Coverage",
-        "CMAKE_CXX_FLAGS_COVERAGE": "-Og -g --coverage -fkeep-inline-functions -fkeep-static-functions",
+        "CMAKE_CXX_FLAGS_COVERAGE": "-Og -g --coverage -fpath-coverage -fcondition-coverage -fkeep-inline-functions -fkeep-static-functions",
         "CMAKE_EXE_LINKER_FLAGS_COVERAGE": "--coverage",
         "CMAKE_SHARED_LINKER_FLAGS_COVERAGE": "--coverage"
       }

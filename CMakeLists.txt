@@ -6,7 +6,7 @@ project(
     clox
     VERSION 0.1.0
     DESCRIPTION "Lox Bytecode Interpreter in C"
-    LANGUAGES C
+    LANGUAGES C CXX
 )
 
 include(cmake/variables.cmake)
@@ -31,16 +31,40 @@ target_include_directories(
     "\$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
 )
 
-target_compile_features(clox_lib PUBLIC c_std_99)
-
 # ---- Declare executable ----
 add_executable(clox src/bin/main.c)
 add_executable(clox::exe ALIAS clox)
-
 set_property(TARGET clox PROPERTY OUTPUT_NAME clox)
-
-target_compile_features(clox PRIVATE c_std_99)
 target_link_libraries(clox PRIVATE clox_lib)
+
+# ---- Testing, Profiling and Coverage ----
+if(CLOX_DEVELOPER_MODE)
+
+    # ---- Install Catch2 ----
+    include(FetchContent)
+
+    FetchContent_Declare(
+      Catch2
+      GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+      GIT_TAG        v3.8.1 # or a later release
+    )
+
+    FetchContent_MakeAvailable(Catch2)
+
+    list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+    include(CTest)
+    include(Catch)
+
+    # ---- Testing `scan()` ----
+    add_executable(clox_test_builtin_input tests/test_builtin_input.cxx)
+    target_link_libraries(clox_test_builtin_input PRIVATE clox_lib)
+    target_link_libraries(clox_test_builtin_input PRIVATE Catch2::Catch2WithMain)
+
+    catch_discover_tests(clox_test_builtin_input)
+
+    # ---- Testing ____ ----
+    # abc
+endif()
 
 # ---- Install rules ----
 if(NOT CMAKE_SKIP_INSTALL_RULES)
