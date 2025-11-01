@@ -33,12 +33,46 @@ Available platforms:
 - macos-dev
 - win64
 - win64-dev
-- sanitize : Turns on santizers on Linux platforms
+- sanitize : Turns on GCC or Clang compiler instrumentation for sanitizers on Linux
+             platforms
+- coverage : Turns on GCC or Clang compiler instrumentation for coverage reporting on
+             Linux platforms
 - linux-dev-strict : Additional checks made on linux using `clang-tidy` and `cpp-check`
 
 > Note: There are addition targets that can be built using the `-t` flag during the build
 > step called `spell-check`, `spell-fix`, `format-check` and `format-fix`. These require
 > `clang-format` and `codespell` to work correctly.
+
+## Testing - Unit Tests (Mocking)
+
+```sh
+cmake -S . -B build --preset=<platform>
+cmake --build build
+ctest --test-dir build
+```
+
+> Note: Only the *-dev presets compile the Catch2 tests found in tests/.
+
+> Note: ctest only indicates which tests failed, not what failed. You can run the tests
+> directly to get the pretty output from Catch2 to see which REQUIRE and CHECK macros
+> failed.
+
+## Testing - Code Coverage
+
+```sh
+cmake -S . -B build/coverage –preset=coverage
+cmake --build build/coverage
+ctest --test-dir build/coverage
+mkdir lcov-report
+lcov --capture --branch-coverage --directory build/coverage/CMakeFiles/clox_lib.dir --output-file lcov-report/coverage.info
+genhtml --branch-coverage  lcov-report/coverage.info --output-directory lcov-report
+```
+
+> Note: The unit tests must be run; either by CTest or directly so that the compiler
+> instrumentation that has been injected into the final binaries can produce the relevant
+> output files that lcov traces for coverage information.
+
+> Note: HTML report is available at the path lcov-report/index.html to view in a browser.
 
 ## Changes
 
