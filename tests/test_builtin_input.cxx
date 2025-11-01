@@ -46,10 +46,12 @@ TEST_CASE("VM Creation", "[VM]") {
 
     // Initial GC heap allocations
     CHECK(vm.bytesAllocated == allocation_estimate);
-    CHECK(vm.nextGC == allocation_estimate * 2);
+    CHECK(vm.nextGC == 1024 * 1024);
+
+    // GC won't have triggered yet
     CHECK(vm.greyCount == 0);
-    CHECK(vm.greyCapacity == 8);
-    CHECK(vm.greyStack != NULL);
+    CHECK(vm.greyCapacity == 0);
+    CHECK(vm.greyStack == NULL);
 
     // Globals table only has clockNative global
     CHECK(vm.globals.count == 1);
