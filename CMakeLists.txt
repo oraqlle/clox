@@ -63,11 +63,11 @@ if(CLOX_DEVELOPER_MODE)
     catch_discover_tests(clox_test_vm_init)
 
     # ---- Testing `scan()` ----
-    add_executable(clox_test_builtin_input tests/test_builtin_input.cxx)
-    target_link_libraries(clox_test_builtin_input PRIVATE clox_lib)
-    target_link_libraries(clox_test_builtin_input PRIVATE Catch2::Catch2WithMain)
+    add_executable(clox_test_builtin_scan tests/test_builtin_scan.cxx)
+    target_link_libraries(clox_test_builtin_scan PRIVATE clox_lib)
+    target_link_libraries(clox_test_builtin_scan PRIVATE Catch2::Catch2WithMain)
 
-    catch_discover_tests(clox_test_builtin_input)
+    catch_discover_tests(clox_test_builtin_scan)
 endif()
 
 # ---- Install rules ----

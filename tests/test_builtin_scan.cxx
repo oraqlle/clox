@@ -7,7 +7,7 @@ extern "C" {
 #include "vm.h"
 }
 
-TEST_CASE("`scan()` ObjNative creation", "[scan][builtin]") {
+TEST_CASE("ObjNative creation for `scan()`", "[scan][builtin]") {
 
     // Initialise a VM for each section
     VM vm;
