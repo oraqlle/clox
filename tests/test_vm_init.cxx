@@ -1,3 +1,4 @@
+#include "common.h"
 #include <catch2/catch_test_macros.hpp>
 
 // Link clox library objects as C and not as C++
@@ -43,40 +44,40 @@ TEST_CASE("VM Initialisation", "[VM][Init]") {
     // clang-format on
 
     // VM Stack is Empty
-    CHECK(vm.stackTop == vm.stack);
-    CHECK(vm.frameCount == 0);
-    CHECK(vm.openUpvalues == NULL);
+    REQUIRE(vm.stackTop == vm.stack);
+    REQUIRE(vm.frameCount == 0);
+    REQUIRE(vm.openUpvalues == NULL);
 
     // Only "clock" builtin is created
-    CHECK(vm.objects != NULL);
-    CHECK(vm.objects->type == ObjType::OBJ_NATIVE);
-    //CHECK(AS_NATIVE_OBJ(vm.objects)->func == clockNative)
-    CHECK(vm.objects->next == NULL);
+    REQUIRE(vm.objects != NULL);
+    REQUIRE(vm.objects->type == ObjType::OBJ_NATIVE);
+    //REQUIRE(AS_NATIVE_OBJ(vm.objects)->func == clockNative)
+    REQUIRE(vm.objects->next == NULL);
 
     // Initial heap allocations
-    CHECK(vm.bytesAllocated == allocation_estimate);
-    CHECK(vm.nextGC == 1024 * 1024); // TODO: Make magic a #define
+    REQUIRE(vm.bytesAllocated == allocation_estimate);
+    REQUIRE(vm.nextGC == CLOX_INIT_GC_PASS);
 
     // Ensure no Garbage Collection passes have run yet
-    CHECK(vm.greyCount == 0);
-    CHECK(vm.greyCapacity == 0);
-    CHECK(vm.greyStack == NULL);
+    REQUIRE(vm.greyCount == 0);
+    REQUIRE(vm.greyCapacity == 0);
+    REQUIRE(vm.greyStack == NULL);
 
     // VM::globals Table initialisation.
     // Globals table only has clockNative global
-    CHECK(vm.globals.count == 1);
-    CHECK(vm.globals.capacity == 8);
-    CHECK(vm.globals.entries != NULL);
+    REQUIRE(vm.globals.count == 1);
+    REQUIRE(vm.globals.capacity == 8);
+    REQUIRE(vm.globals.entries != NULL);
 
     // VM::strings Table initialization.
     // Strings table contains the "init" string and the
     // "clock" string for lookup of clockNative
-    CHECK(vm.strings.count == 2);
-    CHECK(vm.strings.capacity == 8);
-    CHECK(vm.strings.entries != NULL);
+    REQUIRE(vm.strings.count == 2);
+    REQUIRE(vm.strings.capacity == 8);
+    REQUIRE(vm.strings.entries != NULL);
 
     // VM::initString set to "init"
-    CHECK(strcmp(vm.initString->chars, "init") == 0);
+    REQUIRE(strcmp(vm.initString->chars, "init") == 0);
 
     // Create ASSERTS for this section
     printf("Entry size: %zu\n", sizeof(Entry));

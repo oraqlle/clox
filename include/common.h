@@ -12,6 +12,7 @@
 #include <stdint.h>
 
 #define UINT8_COUNT (UINT8_MAX + 1)
+#define CLOX_INIT_GC_PASS 1048576 // number of bytes allocated before first GC pass
 
 // Forward declare VM type
 typedef struct VM VM;

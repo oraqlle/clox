@@ -248,7 +248,7 @@ void initVM(VM *vm) {
     resetStack(vm);
     vm->objects = NULL;
     vm->bytesAllocated = 0;
-    vm->nextGC = 1024 * 1024;
+    vm->nextGC = CLOX_INIT_GC_PASS;
 
     vm->greyCount = 0;
     vm->greyCapacity = 0;
