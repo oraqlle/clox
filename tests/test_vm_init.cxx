@@ -9,14 +9,18 @@ extern "C" {
 #include "vm.h"
 }
 
-TEST_CASE("VM Initialisation", "[VM][Init]") {
+TEST_CASE("VM Initialisation", "[VM][init]") {
 
-    // Initialise a VM
+    /**
+     * Initialise a VM
+     */
     VM vm;
     initVM(&vm);
 
-    // Expect memory footprint of various Obj subtypes
-    // and the (hash) Table Entry type.
+    /**
+     * Expected memory footprint of various Obj subtypes
+     * and the (hash) Table Entry type.
+     */
     size_t ObjString_size = sizeof(ObjString);
     size_t ObjNative_size = sizeof(ObjNative);
     size_t Entry_size = sizeof(Entry);
@@ -93,6 +97,8 @@ TEST_CASE("VM Initialisation", "[VM][Init]") {
      * Current objects should only be the ObjString
      * pointed to by VM::initString and the
      * ObjStrings + ObjNatives for builtins
+     *
+     * TODO: Make into loop
      */
     Obj *obj = vm.objects;
     REQUIRE(obj != NULL);

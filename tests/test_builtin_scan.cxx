@@ -7,30 +7,67 @@ extern "C" {
 #include "vm.h"
 }
 
-TEST_CASE("ObjNative creation for `scan()`", "[scan][builtin]") {
+/**
+ * Future Test Cases
+ *
+ * * Plain string
+ * * Contains numbers
+ * * Contains single quotes
+ * * Contains double quotes
+ * * Contains escaped characters
+ * * Single newline (direct enter)
+ * * Too large of input
+ * * Whitespace at the start of the string
+ * * Whitespace at the end of the string
+ * * Whitespace at both ends of the string
+ * * Invalid characters (blank characters)
+ * * Invalid characters (unicode etc.)
+ * * Unexpected characters (EOF)
+ * * In REPL environment
+ */
 
-    // Initialise a VM for each section
+TEST_CASE("base", "[.][scan][builtin]") {
+
+    /**
+     * Initialise a VM
+     */
     VM vm;
     initVM(&vm);
 
-    SECTION("Create") {
-        SUCCEED("Done");
-    }
+    SECTION("Create") { SUCCEED("Done"); }
 
     // Ensure to free VM memory
     freeVM(&vm, NULL);
 }
 
-TEST_CASE("abc") {
+TEST_CASE("ObjNative creation for `scan()`", "[scan][builtin][construct]") {
 
-    // Initialise a VM for each section
+    /**
+     * Initialise a VM
+     */
     VM vm;
     initVM(&vm);
 
-    SECTION("Create 2") {
-        SUCCEED("Done");
-    }
+    SECTION("Create") { SUCCEED("Done"); }
 
-    // Ensure to free VM memory
+    /**
+     * Ensure to free VM memory
+     */
+    freeVM(&vm, NULL);
+}
+
+TEST_CASE("Calling scan() with plain string", "[scan][builtin][call]") {
+
+    /**
+     * Initialise a VM
+     */
+    VM vm;
+    initVM(&vm);
+
+    SECTION("Create") { SUCCEED("Done"); }
+
+    /**
+     * Ensure to free VM memory
+     */
     freeVM(&vm, NULL);
 }
