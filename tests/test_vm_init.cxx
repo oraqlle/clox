@@ -20,7 +20,7 @@ TEST_CASE("VM Initialisation", "[VM][Init]") {
     size_t ObjString_size = sizeof(ObjString);
     size_t ObjNative_size = sizeof(ObjNative);
     size_t Entry_size = sizeof(Entry);
-    
+
     // clang-format off
 
     /**
@@ -112,24 +112,23 @@ TEST_CASE("VM Initialisation", "[VM][Init]") {
     REQUIRE(strcmp(((ObjString *)obj)->chars, "init") == 0);
     REQUIRE(obj->next == NULL);
 
-    // Create ASSERTS for this section
-    printf("Entry size: %zu\n", sizeof(Entry));
-    printf("ObjString size: %zu\n", sizeof(ObjString));
-    printf("ObjNative size: %zu\n", sizeof(ObjNative));
-
-    printf("%u\n", vm.strings.capacity);
+    /**
+     * Only symbols for builtins and the init string
+     * are stored in the VM::strings table
+     */
     for (size_t i = 0; i < vm.strings.capacity; i++) {
-        Entry *e = &vm.strings.entries[i];
+        Entry *entry = &vm.strings.entries[i];
 
-        if (e->key != NULL) {
-            printf("%s : ", e->key->chars);
-            printValue(e->value);
-            printf("\n");
-        } else {
-            printf("<empty>\n");
+        if (entry->key != NULL) {
+            REQUIRE(((strcmp(entry->key->chars, "init") == 0) ||
+                     (strcmp(entry->key->chars, "clock") == 0)));
         }
+
+        REQUIRE(IS_NIL(entry->value));
     }
 
-    // Ensure to free VM memory
+    /**
+     * Ensure to free VM memory
+     */
     freeVM(&vm, NULL);
 }
