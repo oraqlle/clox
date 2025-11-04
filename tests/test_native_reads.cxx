@@ -1,10 +1,40 @@
 #include <catch2/catch_test_macros.hpp>
+#include <cstdio>
 
 // Link clox library objects as C and not as C++
 extern "C" {
-#include "natives.h"
+
+/**
+ * Mocked fgetc implementation
+ */
+static const char *fgetc_mock_rd_ptr = NULL;
+
+static int mocked_fgetc(FILE *stream) {
+    if (fgetc_mock_rd_ptr == NULL) {
+        return EOF;
+    }
+
+    if (*fgetc_mock_rd_ptr != '\0') {
+        int chr = (unsigned char)*fgetc_mock_rd_ptr;
+        fgetc_mock_rd_ptr++;
+        return chr;
+    }
+
+    return EOF;
+}
+
+#include "chunk.h"
 #include "object.h"
 #include "vm.h"
+
+/**
+ * Replace symbols for fgetc function
+ * with symbol for mocked variant only
+ * in natives.h
+ */
+#define fgetc mocked_fgetc
+#include "natives.h"
+#undef fgetc
 }
 
 /**
@@ -125,12 +155,58 @@ TEST_CASE("Construction and registration of reads() native",
 TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
 
     /**
-     * Initialise a VM
+     * Initialise a Scanner and VM to compile
+     * and execute the test script respectively.
      */
+    Scanner scanner;
     VM vm;
     initVM(&vm);
 
-    SECTION("Plain string input") { SUCCEED("Done"); }
+    const char *script = "print \"Enter your name:\";"
+                         "var a = \"abc\";"
+                         "print \"Hello \" + a + \"!\";";
+
+    // clang-format off
+    const uint8_t expected_bytecode[] = {
+        OP_CONSTANT, 0x00,
+        OP_PRINT,
+        OP_GET_GLOBAL, 0x02,
+        OP_CALL, 0x00,
+        OP_DEFINE_GLOBAL, 0x01,
+        OP_CONSTANT, 0x03,
+        OP_GET_GLOBAL, 0x04,
+        OP_ADD,
+        OP_CONSTANT, 0x05,
+        OP_ADD,
+        OP_PRINT,
+        OP_NIL,
+        OP_RETURN
+    };
+    // clang-format off
+
+    size_t const bytec_offset = sizeof(expected_bytecode);
+
+    SECTION("Plain string input") {
+
+        /**
+         * Sample user input
+         */
+        const char *user_input = "John";
+        fgetc_mock_rd_ptr = user_input;
+
+        InterpreterResult result = interpret(&vm, &scanner, script);
+
+        CHECK(result != INTERPRETER_COMPILE_ERR);
+        CHECK(result != INTERPRETER_RUNTIME_ERR);
+        CHECK(result == INTERPRETER_OK);
+
+        uint8_t *ip = vm.frames[0].ip - bytec_offset;
+        for (size_t i = 0; i < bytec_offset; i++,ip++) {
+            CHECK(expected_bytecode[i] == *ip);
+        }
+
+        fgetc_mock_rd_ptr = NULL;
+    }
 
     SECTION("Input contains numbers") { SUCCEED("Done"); }
 

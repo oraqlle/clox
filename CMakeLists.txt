@@ -77,6 +77,7 @@ if(NOT CMAKE_SKIP_INSTALL_RULES)
 endif()
 
 # ---- Developer mode ----
+# TODO: Allow clox debug macros to be set when invoking cmake
 if(NOT CLOX_DEVELOPER_MODE)
     return()
 elseif(NOT PROJECT_IS_TOP_LEVEL)
