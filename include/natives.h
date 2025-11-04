@@ -8,7 +8,16 @@
 #define clox_natives_h
 
 #include "common.h"
+#include "object.h"
 #include "value.h"
+
+/**
+ * @brief Defines a NativeObj and registers in a VM
+ *        such that it can be looked up and called
+ *        from within a Lox script or REPL.
+ */
+void defineNative(VM *vm, Compiler *compiler, const char *name, NativeFn func,
+                  uint8_t arity);
 
 /**
  * @brief Binding to clock() function from <time.h>.

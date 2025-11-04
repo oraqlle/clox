@@ -51,14 +51,70 @@ TEST_CASE("Construction and registration of reads() native",
     VM vm;
     initVM(&vm);
 
-    SECTION("Direct ObjNative construction for reads()") {
-        ObjNative *ntv = newNative(&vm, NULL, readsNative, 1);
+    size_t const bytes_alloc_before = vm.bytesAllocated;
+    size_t const string_size = sizeof(ObjString);
+    size_t const native_size = sizeof(ObjNative);
 
-        REQUIRE(ntv->arity == 1);
+    SECTION("Direct ObjNative construction for reads()") {
+        ObjNative *ntv = newNative(&vm, NULL, readsNative, 0);
+
+        REQUIRE(ntv->arity == 0);
         REQUIRE(ntv->func == readsNative);
+
+        REQUIRE(&ntv->obj == vm.objects);
+        REQUIRE(ntv->obj.type == ObjType::OBJ_NATIVE);
+
+        /**
+         * VM should have only allocated bytes for
+         * the following:
+         *
+         * * Creating ObjNative for reads()
+         */
+        REQUIRE(vm.bytesAllocated == bytes_alloc_before + native_size);
     }
 
-    SECTION("Registration of reads() in VM") { SUCCEED("Done"); }
+    /**
+     * Note: This test case can be removed once
+     * reads() is defined directly by a call to
+     * initVM(), which will require an update to
+     * the test case checking the VM's state after
+     * initialisation.
+     */
+    SECTION("Registration of reads() in VM") {
+        defineNative(&vm, NULL, "reads", readsNative, 0);
+
+        /**
+         * VM should have only allocated bytes for
+         * the following:
+         *
+         * * Copying the symbol "reads",
+         * * Creating a ObjString from "reads",
+         * * Creating ObjNative for reads()
+         */
+        size_t const bytes_alloc_after =
+            bytes_alloc_before + native_size + string_size + strlen("reads") + 1;
+        REQUIRE(vm.bytesAllocated == bytes_alloc_after);
+
+        REQUIRE(vm.globals.count == 2);
+        REQUIRE(vm.globals.capacity == 8);
+        REQUIRE(vm.globals.entries != NULL);
+
+        REQUIRE(vm.strings.count == 3);
+        REQUIRE(vm.strings.capacity == 8);
+        REQUIRE(vm.strings.entries != NULL);
+
+        for (size_t i = 0; i < vm.strings.capacity; i++) {
+            Entry *entry = &vm.strings.entries[i];
+
+            if (entry->key != NULL) {
+                REQUIRE(((strcmp(entry->key->chars, "init") == 0) ||
+                         (strcmp(entry->key->chars, "clock") == 0) ||
+                         (strcmp(entry->key->chars, "reads") == 0)));
+            }
+
+            REQUIRE(IS_NIL(entry->value));
+        }
+    }
 
     /**
      * Ensure to free VM memory

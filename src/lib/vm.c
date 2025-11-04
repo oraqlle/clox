@@ -46,21 +46,6 @@ static void runtimeError(VM *vm, const char *format, ...) {
     resetStack(vm);
 }
 
-static void defineNative(VM *vm, Compiler *compiler, const char *name, NativeFn func,
-                         uint8_t arity) {
-
-    if (arity == UINT8_MAX) {
-        fprintf(stderr, "Can't have more than 255 parameters in native function %s.\n",
-                name);
-    }
-
-    push(vm, OBJ_VAL(copyString(vm, compiler, strlen(name), name)));
-    push(vm, OBJ_VAL(newNative(vm, compiler, func, arity)));
-    tableSet(vm, compiler, &vm->globals, AS_STRING(vm->stack[0]), vm->stack[1]);
-    pop(vm);
-    pop(vm);
-}
-
 static Value peek(VM *vm, int distance) { return vm->stackTop[-1 - distance]; }
 
 static bool call(VM *vm, ObjClosure *closure, uint8_t argCount) {
