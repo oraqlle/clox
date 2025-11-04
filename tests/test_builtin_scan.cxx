@@ -36,11 +36,14 @@ TEST_CASE("base", "[.][scan][builtin]") {
 
     SECTION("Create") { SUCCEED("Done"); }
 
-    // Ensure to free VM memory
+    /**
+     * Ensure to free VM memory
+     */
     freeVM(&vm, NULL);
 }
 
-TEST_CASE("ObjNative creation for `scan()`", "[scan][builtin][construct]") {
+TEST_CASE("Construction and registration of scan() builtin",
+          "[scan][builtin][construction]") {
 
     /**
      * Initialise a VM
@@ -48,7 +51,9 @@ TEST_CASE("ObjNative creation for `scan()`", "[scan][builtin][construct]") {
     VM vm;
     initVM(&vm);
 
-    SECTION("Create") { SUCCEED("Done"); }
+    SECTION("Direct ObjNative construction for scan()") { SUCCEED("Done"); }
+
+    SECTION("Registration of scan() in VM") { SUCCEED("Done"); }
 
     /**
      * Ensure to free VM memory
@@ -56,7 +61,7 @@ TEST_CASE("ObjNative creation for `scan()`", "[scan][builtin][construct]") {
     freeVM(&vm, NULL);
 }
 
-TEST_CASE("Calling scan() with plain string", "[scan][builtin][call]") {
+TEST_CASE("Mocked inputs for scan()", "[scan][builtin][invocation]") {
 
     /**
      * Initialise a VM
@@ -64,7 +69,25 @@ TEST_CASE("Calling scan() with plain string", "[scan][builtin][call]") {
     VM vm;
     initVM(&vm);
 
-    SECTION("Create") { SUCCEED("Done"); }
+    SECTION("Plain string input") { SUCCEED("Done"); }
+
+    SECTION("Input contains numbers") { SUCCEED("Done"); }
+
+    SECTION("Input contains quotes") { SUCCEED("Done"); }
+
+    SECTION("Input contains escape characters") { SUCCEED("Done"); }
+
+    SECTION("Empty (single newline)") { SUCCEED("Done"); }
+
+    SECTION("Too large of input") { SUCCEED("Done"); }
+
+    SECTION("Input contains whitespace") { SUCCEED("Done"); }
+
+    SECTION("Input contains invalid characters") { SUCCEED("Done"); }
+
+    SECTION("End-of-File") { SUCCEED("Done"); }
+
+    SECTION("REPL env") { SUCCEED("Done"); }
 
     /**
      * Ensure to free VM memory
