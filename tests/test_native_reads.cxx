@@ -26,7 +26,7 @@ extern "C" {
  * * In REPL environment
  */
 
-TEST_CASE("base", "[.][scan][builtin]") {
+TEST_CASE("base", "[.][reads][native]") {
 
     /**
      * Initialise a VM
@@ -42,8 +42,8 @@ TEST_CASE("base", "[.][scan][builtin]") {
     freeVM(&vm, NULL);
 }
 
-TEST_CASE("Construction and registration of scan() builtin",
-          "[scan][builtin][construction]") {
+TEST_CASE("Construction and registration of reads() native",
+          "[reads][native][construction]") {
 
     /**
      * Initialise a VM
@@ -51,13 +51,14 @@ TEST_CASE("Construction and registration of scan() builtin",
     VM vm;
     initVM(&vm);
 
-    SECTION("Direct ObjNative construction for scan()") {
-        ObjNative *scn = newNative(&vm, NULL, scanNative, 1);
+    SECTION("Direct ObjNative construction for reads()") {
+        ObjNative *ntv = newNative(&vm, NULL, readsNative, 1);
 
-        REQUIRE(scn->func == scanNative);
+        REQUIRE(ntv->arity == 1);
+        REQUIRE(ntv->func == readsNative);
     }
 
-    SECTION("Registration of scan() in VM") { SUCCEED("Done"); }
+    SECTION("Registration of reads() in VM") { SUCCEED("Done"); }
 
     /**
      * Ensure to free VM memory
@@ -65,7 +66,7 @@ TEST_CASE("Construction and registration of scan() builtin",
     freeVM(&vm, NULL);
 }
 
-TEST_CASE("Mocked inputs for scan()", "[scan][builtin][invocation]") {
+TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
 
     /**
      * Initialise a VM

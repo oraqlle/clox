@@ -23,6 +23,6 @@ Value clockNative(size_t argCount, Value *args);
  *        file supplied as a path string in a
  *        lox program.
  */
-Value scanNative(size_t argCount, Value *args);
+Value readsNative(size_t argCount, Value *args);
 
 #endif // clox_natives_h
