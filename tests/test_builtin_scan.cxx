@@ -2,8 +2,8 @@
 
 // Link clox library objects as C and not as C++
 extern "C" {
+#include "natives.h"
 #include "object.h"
-#include "value.h"
 #include "vm.h"
 }
 
@@ -51,7 +51,11 @@ TEST_CASE("Construction and registration of scan() builtin",
     VM vm;
     initVM(&vm);
 
-    SECTION("Direct ObjNative construction for scan()") { SUCCEED("Done"); }
+    SECTION("Direct ObjNative construction for scan()") {
+        ObjNative *scn = newNative(&vm, NULL, scanNative, 1);
+
+        REQUIRE(scn->func == scanNative);
+    }
 
     SECTION("Registration of scan() in VM") { SUCCEED("Done"); }
 

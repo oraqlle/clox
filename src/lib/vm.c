@@ -2,7 +2,6 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include <time.h>
 #include <wchar.h>
 
 #include "chunk.h"
@@ -10,6 +9,7 @@
 #include "compiler.h"
 #include "debug.h"
 #include "memory.h"
+#include "natives.h"
 #include "object.h"
 #include "table.h"
 #include "value.h"
@@ -238,10 +238,6 @@ static void concatenate(VM *vm, Compiler *compiler) {
     pop(vm);
     pop(vm);
     push(vm, OBJ_VAL(string));
-}
-
-static Value clockNative(size_t argCount, Value *args) {
-    return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
 }
 
 void initVM(VM *vm) {

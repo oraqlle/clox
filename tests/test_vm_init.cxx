@@ -1,9 +1,10 @@
-#include "common.h"
 #include <catch2/catch_test_macros.hpp>
 #include <cstring>
 
 // Link clox library objects as C and not as C++
 extern "C" {
+#include "common.h"
+#include "natives.h"
 #include "object.h"
 #include "value.h"
 #include "vm.h"
@@ -96,17 +97,19 @@ TEST_CASE("VM Initialisation", "[VM][init]") {
     /**
      * Current objects should only be the ObjString
      * pointed to by VM::initString and the
-     * ObjStrings + ObjNatives for builtins
+     * ObjStrings + ObjNatives for natives
      *
      * TODO: Make into loop
      */
     Obj *obj = vm.objects;
     REQUIRE(obj != NULL);
+
     // clockNative
     REQUIRE(obj->type == ObjType::OBJ_NATIVE);
+    REQUIRE(((ObjNative *)obj)->func == clockNative);
     REQUIRE(obj->next != NULL);
 
-    // Builtin "clock" symbol
+    // Native "clock" symbol
     obj = obj->next;
     REQUIRE(obj->type == ObjType::OBJ_STRING);
     REQUIRE(strcmp(((ObjString *)obj)->chars, "clock") == 0);
@@ -119,7 +122,7 @@ TEST_CASE("VM Initialisation", "[VM][init]") {
     REQUIRE(obj->next == NULL);
 
     /**
-     * Only symbols for builtins and the init string
+     * Only symbols for natives and the init string
      * are stored in the VM::strings table
      */
     for (size_t i = 0; i < vm.strings.capacity; i++) {

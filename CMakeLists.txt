@@ -18,6 +18,7 @@ add_library(
     src/lib/compiler.c
     src/lib/debug.c
     src/lib/memory.c
+    src/lib/natives.c
     src/lib/object.c
     src/lib/scanner.c
     src/lib/table.c
