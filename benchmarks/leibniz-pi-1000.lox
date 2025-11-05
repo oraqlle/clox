@@ -1,0 +1,29 @@
+fun pow(base, exp) {
+    var num = 1;
+
+    for (var i = 0; i < exp; i = i + 1) {
+            num = num * base;
+    }
+
+    return num;
+}
+
+fun leibniz_pi(terms) {
+    var approx = 0.0;
+
+    for (var n = 0; n < TERMS; n = n + 1) {
+        approx = approx + pow(-1.0, n) / (2.0 * n + 1.0);
+    }
+
+    return 4 * approx;
+}
+
+var TERMS = 1000;
+
+print "Approximations of π using Leibniz Formula";
+print "Number of terms:";
+print TERMS;
+
+var result = leibniz_pi(TERMS);
+print result;
+
