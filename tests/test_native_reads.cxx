@@ -46,7 +46,10 @@ TEST_CASE("base", "[.][reads][native]") {
     VM vm;
     initVM(&vm);
 
-    SECTION("Create") { SUCCEED("Done"); }
+    SECTION("Create") {
+        SUCCEED("The test case was successful and this is longer so that it gets "
+                "formatted correctly");
+    }
 
     /**
      * Ensure to free VM memory
@@ -172,7 +175,7 @@ TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
     SECTION("Plain string input") {
 
         /**
-         * Simulate user input by re-assigning stdin FILE backing
+         * Simulate user input by reopening with a new temporary file
          */
         const char *user_input = "John";
         FILE *old_stdin = stdin;
@@ -191,23 +194,203 @@ TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
         }
     }
 
-    SECTION("Input contains numbers") { SUCCEED("Done"); }
+    SECTION("Input contains numbers") {
 
-    SECTION("Input contains quotes") { SUCCEED("Done"); }
+        /**
+         * Simulate user input by reopening with a new temporary file
+         */
+        const char *user_input = "John";
+        FILE *old_stdin = stdin;
+        send_mock_to_stdin(user_input);
+        CHECK(old_stdin == stdin);
 
-    SECTION("Input contains escape characters") { SUCCEED("Done"); }
+        InterpreterResult result = interpret(&vm, &scanner, script);
 
-    SECTION("Empty (single newline)") { SUCCEED("Done"); }
+        CHECK(result != INTERPRETER_COMPILE_ERR);
+        CHECK(result != INTERPRETER_RUNTIME_ERR);
+        CHECK(result == INTERPRETER_OK);
 
-    SECTION("Too large of input") { SUCCEED("Done"); }
+        uint8_t *ip = vm.frames[0].ip - bytec_offset;
+        for (size_t i = 0; i < bytec_offset; i++,ip++) {
+            CHECK(expected_bytecode[i] == *ip);
+        }
+    }
 
-    SECTION("Input contains whitespace") { SUCCEED("Done"); }
+    SECTION("Input contains quotes") {
 
-    SECTION("Input contains invalid characters") { SUCCEED("Done"); }
+        /**
+         * Simulate user input by reopening with a new temporary file
+         */
+        const char *user_input = "John";
+        FILE *old_stdin = stdin;
+        send_mock_to_stdin(user_input);
+        CHECK(old_stdin == stdin);
 
-    SECTION("End-of-File") { SUCCEED("Done"); }
+        InterpreterResult result = interpret(&vm, &scanner, script);
 
-    SECTION("REPL env") { SUCCEED("Done"); }
+        CHECK(result != INTERPRETER_COMPILE_ERR);
+        CHECK(result != INTERPRETER_RUNTIME_ERR);
+        CHECK(result == INTERPRETER_OK);
+
+        uint8_t *ip = vm.frames[0].ip - bytec_offset;
+        for (size_t i = 0; i < bytec_offset; i++,ip++) {
+            CHECK(expected_bytecode[i] == *ip);
+        }
+    }
+
+    SECTION("Input contains escape characters") {
+
+        /**
+         * Simulate user input by reopening with a new temporary file
+         */
+        const char *user_input = "John";
+        FILE *old_stdin = stdin;
+        send_mock_to_stdin(user_input);
+        CHECK(old_stdin == stdin);
+
+        InterpreterResult result = interpret(&vm, &scanner, script);
+
+        CHECK(result != INTERPRETER_COMPILE_ERR);
+        CHECK(result != INTERPRETER_RUNTIME_ERR);
+        CHECK(result == INTERPRETER_OK);
+
+        uint8_t *ip = vm.frames[0].ip - bytec_offset;
+        for (size_t i = 0; i < bytec_offset; i++,ip++) {
+            CHECK(expected_bytecode[i] == *ip);
+        }
+    }
+
+    SECTION("Empty (single newline)") {
+
+        /**
+         * Simulate user input by reopening with a new temporary file
+         */
+        const char *user_input = "John";
+        FILE *old_stdin = stdin;
+        send_mock_to_stdin(user_input);
+        CHECK(old_stdin == stdin);
+
+        InterpreterResult result = interpret(&vm, &scanner, script);
+
+        CHECK(result != INTERPRETER_COMPILE_ERR);
+        CHECK(result != INTERPRETER_RUNTIME_ERR);
+        CHECK(result == INTERPRETER_OK);
+
+        uint8_t *ip = vm.frames[0].ip - bytec_offset;
+        for (size_t i = 0; i < bytec_offset; i++,ip++) {
+            CHECK(expected_bytecode[i] == *ip);
+        }
+    }
+
+    SECTION("Too large of input") {
+
+        /**
+         * Simulate user input by reopening with a new temporary file
+         */
+        const char *user_input = "John";
+        FILE *old_stdin = stdin;
+        send_mock_to_stdin(user_input);
+        CHECK(old_stdin == stdin);
+
+        InterpreterResult result = interpret(&vm, &scanner, script);
+
+        CHECK(result != INTERPRETER_COMPILE_ERR);
+        CHECK(result != INTERPRETER_RUNTIME_ERR);
+        CHECK(result == INTERPRETER_OK);
+
+        uint8_t *ip = vm.frames[0].ip - bytec_offset;
+        for (size_t i = 0; i < bytec_offset; i++,ip++) {
+            CHECK(expected_bytecode[i] == *ip);
+        }
+    }
+
+    SECTION("Input contains whitespace") {
+
+        /**
+         * Simulate user input by reopening with a new temporary file
+         */
+        const char *user_input = "John";
+        FILE *old_stdin = stdin;
+        send_mock_to_stdin(user_input);
+        CHECK(old_stdin == stdin);
+
+        InterpreterResult result = interpret(&vm, &scanner, script);
+
+        CHECK(result != INTERPRETER_COMPILE_ERR);
+        CHECK(result != INTERPRETER_RUNTIME_ERR);
+        CHECK(result == INTERPRETER_OK);
+
+        uint8_t *ip = vm.frames[0].ip - bytec_offset;
+        for (size_t i = 0; i < bytec_offset; i++,ip++) {
+            CHECK(expected_bytecode[i] == *ip);
+        }
+    }
+
+    SECTION("Input contains invalid characters") {
+
+        /**
+         * Simulate user input by reopening with a new temporary file
+         */
+        const char *user_input = "John";
+        FILE *old_stdin = stdin;
+        send_mock_to_stdin(user_input);
+        CHECK(old_stdin == stdin);
+
+        InterpreterResult result = interpret(&vm, &scanner, script);
+
+        CHECK(result != INTERPRETER_COMPILE_ERR);
+        CHECK(result != INTERPRETER_RUNTIME_ERR);
+        CHECK(result == INTERPRETER_OK);
+
+        uint8_t *ip = vm.frames[0].ip - bytec_offset;
+        for (size_t i = 0; i < bytec_offset; i++,ip++) {
+            CHECK(expected_bytecode[i] == *ip);
+        }
+    }
+
+    SECTION("End-of-File") {
+
+        /**
+         * Simulate user input by reopening with a new temporary file
+         */
+        const char *user_input = "John";
+        FILE *old_stdin = stdin;
+        send_mock_to_stdin(user_input);
+        CHECK(old_stdin == stdin);
+
+        InterpreterResult result = interpret(&vm, &scanner, script);
+
+        CHECK(result != INTERPRETER_COMPILE_ERR);
+        CHECK(result != INTERPRETER_RUNTIME_ERR);
+        CHECK(result == INTERPRETER_OK);
+
+        uint8_t *ip = vm.frames[0].ip - bytec_offset;
+        for (size_t i = 0; i < bytec_offset; i++,ip++) {
+            CHECK(expected_bytecode[i] == *ip);
+        }
+    }
+
+    SECTION("REPL env") {
+
+        /**
+         * Simulate user input by reopening with a new temporary file
+         */
+        const char *user_input = "John";
+        FILE *old_stdin = stdin;
+        send_mock_to_stdin(user_input);
+        CHECK(old_stdin == stdin);
+
+        InterpreterResult result = interpret(&vm, &scanner, script);
+
+        CHECK(result != INTERPRETER_COMPILE_ERR);
+        CHECK(result != INTERPRETER_RUNTIME_ERR);
+        CHECK(result == INTERPRETER_OK);
+
+        uint8_t *ip = vm.frames[0].ip - bytec_offset;
+        for (size_t i = 0; i < bytec_offset; i++,ip++) {
+            CHECK(expected_bytecode[i] == *ip);
+        }
+    }
 
     /**
      * Ensure to free VM memory
