@@ -34,8 +34,6 @@ static void send_mock_to_stdin(const char *text) {
  * * Whitespace at both ends of the string
  * * Invalid characters (blank characters)
  * * Invalid characters (unicode etc.)
- * * Unexpected characters (EOF)
- * * In REPL environment
  */
 
 TEST_CASE("base", "[.][reads][native]") {
@@ -199,7 +197,7 @@ TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
         /**
          * Simulate user input by reopening with a new temporary file
          */
-        const char *user_input = "John";
+        const char *user_input = "J46456ohn";
         FILE *old_stdin = stdin;
         send_mock_to_stdin(user_input);
         CHECK(old_stdin == stdin);
@@ -221,7 +219,7 @@ TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
         /**
          * Simulate user input by reopening with a new temporary file
          */
-        const char *user_input = "John";
+        const char *user_input = "\"John\"";
         FILE *old_stdin = stdin;
         send_mock_to_stdin(user_input);
         CHECK(old_stdin == stdin);
@@ -243,7 +241,7 @@ TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
         /**
          * Simulate user input by reopening with a new temporary file
          */
-        const char *user_input = "John";
+        const char *user_input = "Jo\bh\nn\tSmit\\h";
         FILE *old_stdin = stdin;
         send_mock_to_stdin(user_input);
         CHECK(old_stdin == stdin);
@@ -265,7 +263,7 @@ TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
         /**
          * Simulate user input by reopening with a new temporary file
          */
-        const char *user_input = "John";
+        const char *user_input = "\n";
         FILE *old_stdin = stdin;
         send_mock_to_stdin(user_input);
         CHECK(old_stdin == stdin);
@@ -287,7 +285,7 @@ TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
         /**
          * Simulate user input by reopening with a new temporary file
          */
-        const char *user_input = "John";
+        const char *user_input = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Pretium tellus duis convallis tempus leo eu aenean. Iaculis massa nisl malesuada lacinia integer nunc posuere. Conubia nostra inceptos himenaeos orci varius natoque penatibus. Nulla molestie mattis scelerisque maximus eget fermentum odio. Blandit quis suspendisse aliquet nisi sodales consequat magna. Ligula congue sollicitudin erat viverra ac tincidunt nam. Velit aliquam imperdiet mollis nullam volutpat porttitor ullamcorper. Dui felis venenatis ultrices proin libero feugiat tristique. Cubilia curae hac habitasse platea dictumst lorem ipsum. Sem placerat in id cursus mi pretium tellus. Fringilla lacus nec metus bibendum egestas iaculis massa. Taciti sociosqu ad litora torquent per conubia nostra. Ridiculus mus donec rhoncus eros lobortis nulla molestie. Mauris pharetra vestibulum fusce dictum risus blandit quis. Finibus facilisis dapibus etiam interdum tortor ligula congue. Justo lectus commodo augue arcu dignissim velit aliquam. Primis vulputate ornare sagittis vehicula praesent dui felis. Senectus netus suscipit auctor curabitur facilisi cubilia curae. Quisque faucibus ex sapien vitae pellentesque sem placerat.";
         FILE *old_stdin = stdin;
         send_mock_to_stdin(user_input);
         CHECK(old_stdin == stdin);
@@ -309,7 +307,7 @@ TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
         /**
          * Simulate user input by reopening with a new temporary file
          */
-        const char *user_input = "John";
+        const char *user_input = "asfdsd sfsf sgd";
         FILE *old_stdin = stdin;
         send_mock_to_stdin(user_input);
         CHECK(old_stdin == stdin);
@@ -331,51 +329,7 @@ TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
         /**
          * Simulate user input by reopening with a new temporary file
          */
-        const char *user_input = "John";
-        FILE *old_stdin = stdin;
-        send_mock_to_stdin(user_input);
-        CHECK(old_stdin == stdin);
-
-        InterpreterResult result = interpret(&vm, &scanner, script);
-
-        CHECK(result != INTERPRETER_COMPILE_ERR);
-        CHECK(result != INTERPRETER_RUNTIME_ERR);
-        CHECK(result == INTERPRETER_OK);
-
-        uint8_t *ip = vm.frames[0].ip - bytec_offset;
-        for (size_t i = 0; i < bytec_offset; i++,ip++) {
-            CHECK(expected_bytecode[i] == *ip);
-        }
-    }
-
-    SECTION("End-of-File") {
-
-        /**
-         * Simulate user input by reopening with a new temporary file
-         */
-        const char *user_input = "John";
-        FILE *old_stdin = stdin;
-        send_mock_to_stdin(user_input);
-        CHECK(old_stdin == stdin);
-
-        InterpreterResult result = interpret(&vm, &scanner, script);
-
-        CHECK(result != INTERPRETER_COMPILE_ERR);
-        CHECK(result != INTERPRETER_RUNTIME_ERR);
-        CHECK(result == INTERPRETER_OK);
-
-        uint8_t *ip = vm.frames[0].ip - bytec_offset;
-        for (size_t i = 0; i < bytec_offset; i++,ip++) {
-            CHECK(expected_bytecode[i] == *ip);
-        }
-    }
-
-    SECTION("REPL env") {
-
-        /**
-         * Simulate user input by reopening with a new temporary file
-         */
-        const char *user_input = "John";
+        const char *user_input = "JBj��rk����oacute�";
         FILE *old_stdin = stdin;
         send_mock_to_stdin(user_input);
         CHECK(old_stdin == stdin);
