@@ -24,4 +24,13 @@ Value clockNative(size_t argCount, Value *args) {
     return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
 }
 
-Value readsNative(size_t argCount, Value *args) { return NIL_VAL; }
+Value readsNative(size_t argCount, Value *args) {
+    FILE *in = stdin;
+    int c = fgetc(stdin);
+
+    if (c != EOF) {
+        return TRUE_VAL;
+    }
+
+    return FALSE_VAL;
+}

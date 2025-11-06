@@ -4,37 +4,19 @@
 // Link clox library objects as C and not as C++
 extern "C" {
 
-/**
- * Mocked fgetc implementation
- */
-static const char *fgetc_mock_rd_ptr = NULL;
-
-static int mocked_fgetc(FILE *stream) {
-    if (fgetc_mock_rd_ptr == NULL) {
-        return EOF;
-    }
-
-    if (*fgetc_mock_rd_ptr != '\0') {
-        int chr = (unsigned char)*fgetc_mock_rd_ptr;
-        fgetc_mock_rd_ptr++;
-        return chr;
-    }
-
-    return EOF;
-}
-
 #include "chunk.h"
+#include "natives.h"
 #include "object.h"
 #include "vm.h"
+}
 
 /**
- * Replace symbols for fgetc function
- * with symbol for mocked variant only
- * in natives.h
+ * Writes to stdin to mock user input to a LOx program
  */
-#define fgetc mocked_fgetc
-#include "natives.h"
-#undef fgetc
+static void send_mock_to_stdin(const char *text) {
+    freopen("/tmp/clox_test.txt", "w+", stdin);
+    fprintf(stdin, "%s\n", text);
+    freopen("/dev/stdin", "r", stdin);
 }
 
 /**
@@ -161,9 +143,10 @@ TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
     Scanner scanner;
     VM vm;
     initVM(&vm);
+    defineNative(&vm, NULL, "reads", readsNative, 0);
 
     const char *script = "print \"Enter your name:\";"
-                         "var a = \"abc\";"
+                         "var a = reads();"
                          "print \"Hello \" + a + \"!\";";
 
     // clang-format off
@@ -184,15 +167,17 @@ TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
     };
     // clang-format off
 
-    size_t const bytec_offset = sizeof(expected_bytecode);
+    size_t const bytec_offset = 14; // bytecode instructions
 
     SECTION("Plain string input") {
 
         /**
-         * Sample user input
+         * Simulate user input by re-assigning stdin FILE backing
          */
         const char *user_input = "John";
-        fgetc_mock_rd_ptr = user_input;
+        FILE *old_stdin = stdin;
+        send_mock_to_stdin(user_input);
+        CHECK(old_stdin == stdin);
 
         InterpreterResult result = interpret(&vm, &scanner, script);
 
@@ -204,8 +189,6 @@ TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
         for (size_t i = 0; i < bytec_offset; i++,ip++) {
             CHECK(expected_bytecode[i] == *ip);
         }
-
-        fgetc_mock_rd_ptr = NULL;
     }
 
     SECTION("Input contains numbers") { SUCCEED("Done"); }
