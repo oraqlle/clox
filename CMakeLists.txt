@@ -11,6 +11,16 @@ project(
 
 include(cmake/variables.cmake)
 
+option(
+    QNAN_BOXING
+    "Weather to use Quite NaN Boxing to represent Lox values"
+    OFF
+)
+
+if(QNAN_BOXING)
+    add_compile_definitions(NAN_BOXING)
+endif()
+
 # ---- Declare library ----
 add_library(
     clox_lib OBJECT
