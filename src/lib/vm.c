@@ -195,7 +195,7 @@ static void closeUpvalues(VM *vm, Value *last) {
 
 static void defineMethod(VM *vm, Compiler *compiler, ObjString *name) {
     Value method = peek(vm, 0);
-    ObjClass *klass = AS_CLASS(method);
+    ObjClass *klass = AS_CLASS(peek(vm, 1));
     tableSet(vm, compiler, &klass->methods, name, method);
     pop(vm);
 }
@@ -210,7 +210,7 @@ static void concatenate(VM *vm, Compiler *compiler) {
     // isn't swept if the GC is triggered by allocating memory
     // for the destination string.
     ObjString *b = AS_STRING(peek(vm, 0));
-    ObjString *a = AS_STRING(peek(vm, 0));
+    ObjString *a = AS_STRING(peek(vm, 1));
 
     size_t length = a->length + b->length;
     char *chars = ALLOCATE(vm, compiler, char, length + 1);

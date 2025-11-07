@@ -757,7 +757,7 @@ static void classDeclaration(Parser *parser, Scanner *scanner, VM *vm, Compiler 
     }
 
     consume(parser, scanner, TOKEN_RIGHT_BRACE, "Expect '}' after class body.");
-    pop(vm);
+    emitByte(parser, OP_POP, compiler, vm);
 
     if (classCompiler.hasSuperclass) {
         endScope(parser, compiler, vm);
