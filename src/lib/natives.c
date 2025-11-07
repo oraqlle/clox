@@ -29,8 +29,8 @@ Value readsNative(size_t argCount, Value *args) {
     int c = fgetc(stdin);
 
     if (c != EOF) {
-        return TRUE_VAL;
+        return BOOL_VAL(true);
     }
 
-    return FALSE_VAL;
+    return BOOL_VAL(false);
 }

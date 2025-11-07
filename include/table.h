@@ -61,7 +61,7 @@ bool tableDelete(Table *table, ObjString *key);
 ObjString *tableFindString(Table *table, const char *chars, size_t length, uint32_t hash);
 
 /**
- * @brief Removes the `week' references to strings marked for GC
+ * @brief Removes the `weak' references to strings marked for GC
  */
 void tableRemoveWhite(Table *table);
 
