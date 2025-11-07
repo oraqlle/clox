@@ -13,7 +13,7 @@ architecture meaning your Lox scripts are compiled to bytecode and executed on t
 This interpreter was used as a learning tool and is not recommended for professional
 use.
 
-## Building
+## Building and Running
 
 If you wish to build clox yourself you will need CMake (>=v3.21) and any relatively
 recent C compiler. This project has a relatively simple CMake config utilising CMake
@@ -43,7 +43,9 @@ Available platforms:
 > step called `spell-check`, `spell-fix`, `format-check` and `format-fix`. These require
 > `clang-format` and `codespell` to work correctly.
 
-## Testing - Unit Tests (Mocking)
+## Testing
+
+### Testing - Unit Tests (Mocking)
 
 ```sh
 cmake -S . -B build --preset=<platform>
@@ -57,7 +59,7 @@ ctest --test-dir build
 > directly to get the pretty output from Catch2 to see which REQUIRE and CHECK macros
 > failed.
 
-## Testing - Code Coverage
+### Testing - Code Coverage
 
 ```sh
 cmake -S . -B build/coverage –preset=coverage
@@ -73,6 +75,90 @@ genhtml --branch-coverage  lcov-report/coverage.info --output-directory lcov-rep
 > output files that lcov traces for coverage information.
 
 > Note: HTML report is available at the path lcov-report/index.html to view in a browser.
+
+### Testing - Sanitizers
+
+```sh
+cmake -S . -B build/sanitize --preset=sanitize -DQNAN_BOXING=ON
+cmake --build build/sanitize
+build/sanitize/clox <input-script>
+```
+
+### Testing - Profiling
+
+#### Prerequisite
+
+```sh
+mkdir perf-reports
+```
+
+#### Tagged Union Build
+
+```sh
+cmake -S . -B build/profile/t-union --preset=profile
+cmake --build build/profile/t-union
+```
+
+#### QNaN Boxing Build
+
+```sh
+cmake -S . -B build/profile/qnan --preset=profile -DQNAN_BOXING=ON
+cmake --build build/profile/qnan
+```
+
+#### Fibonacci Profiling
+
+##### Tagged Union
+
+```sh
+./build/profile/t-union/clox benchmarks/fib-recursive-30.lox
+gprof ./build/profile/t-union/clox gmon.out > perf-reports/fib-t-union.txt
+gprof ./build/profile/t-union/clox gmon.out | gprof2dot | dot -Tsvg -o perf-reports/fib-t-union-graph.svg
+gprof ./build/profile/t-union/clox gmon.out | gprof2dot -n0 -e0 | dot -Tsvg -o perf-reports/fib-t-union-graph-full.svg
+```
+
+##### QNaN Boxing
+
+```sh
+./build/profile/qnan/clox benchmarks/fib-recursive-30.lox
+gprof ./build/profile/qnan/clox gmon.out > perf-reports/fib-qnan.txt
+gprof ./build/profile/qnan/clox gmon.out | gprof2dot | dot -Tsvg -o perf-reports/fib-qnan-graph.svg
+gprof ./build/profile/qnan/clox gmon.out | gprof2dot -n0 -e0 | dot -Tsvg -o perf-reports/fib-qnan-graph-full.svg
+```
+
+##### Comparison
+
+```sh
+gprof2dot --compare perf-reports/fib-qnan.txt perf-reports/fib-t-union.txt | dot -Tsvg -o perf-reports/fib-compare.svg
+gprof2dot -n0 -e0 --compare perf-reports/fib-qnan.txt perf-reports/fib-t-union.txt | dot -Tsvg -o perf-reports/fib-compare-full.svg
+```
+
+#### Leibniz Approx. of Pi
+
+##### Tagged Union
+
+```sh
+./build/profile/t-union/clox benchmarks/leibniz-pi-100000.lox
+gprof ./build/profile/t-union/clox gmon.out > perf-reports/leibniz-t-union.txt
+gprof ./build/profile/t-union/clox gmon.out | gprof2dot | dot -Tsvg -o perf-reports/leibniz-t-union-graph.svg
+gprof ./build/profile/t-union/clox gmon.out | gprof2dot -n0 -e0 | dot -Tsvg -o perf-reports/leibniz-t-union-graph-full.svg
+```
+
+##### QNaN Boxing
+
+```sh
+./build/profile/qnan/clox benchmarks/leibniz-pi-100000.lox
+gprof ./build/profile/qnan/clox gmon.out > perf-reports/leibniz-qnan.txt
+gprof ./build/profile/qnan/clox gmon.out | gprof2dot | dot -Tsvg -o perf-reports/leibniz-qnan-graph.svg
+gprof ./build/profile/qnan/clox gmon.out | gprof2dot -n0 -e0 | dot -Tsvg -o perf-reports/leibniz-qnan-graph-full.svg
+```
+
+##### Comparison
+
+```sh
+gprof2dot --compare perf-reports/leibniz-qnan.txt perf-reports/leibniz-t-union.txt | dot -Tsvg -o perf-reports/leibniz-compare.svg
+gprof2dot -n0 -e0 --compare perf-reports/leibniz-qnan.txt perf-reports/leibniz-t-union.txt | dot -Tsvg -o perf-reports/leibniz-compare-full.svg
+```
 
 ## Changes
 
