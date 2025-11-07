@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <time.h>
 
+#include "common.h"
 #include "object.h"
+#include "table.h"
+#include "natives.h"
 #include "value.h"
 #include "vm.h"
 
@@ -20,17 +23,20 @@ void defineNative(VM *vm, Compiler *compiler, const char *name, NativeFn func,
     pop(vm);
 }
 
-Value clockNative(size_t argCount, Value *args) {
+Value clockNative(VM *vm, Compiler *compiler, size_t argCount, Value *args) {
     return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
 }
 
-Value readsNative(size_t argCount, Value *args) {
-    FILE *in = stdin;
-    int c = fgetc(stdin);
+Value readsNative(VM *vm, Compiler *compiler, size_t argCount, Value *args) {
+    static char buf[READS_MAX_BUF_SIZE] = {0};
 
-    if (c != EOF) {
-        return BOOL_VAL(true);
+    int chr;
+    size_t idx = 0;
+
+    while((chr = fgetc(stdin)) && chr != EOF) {
+        buf[idx] = (char)chr;
     }
 
-    return BOOL_VAL(false);
+    ObjString *str = takeString(vm, compiler, idx, &buf[0]);
+    return OBJ_VAL(str);
 }

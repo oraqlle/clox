@@ -121,7 +121,7 @@ typedef struct {
 /**
  * @brief Type of native/OS functions hoisted from C into Lox
  */
-typedef Value (*NativeFn)(size_t argCount, Value *arg);
+typedef Value (*NativeFn)(VM *vm, Compiler *compiler, size_t argCount, Value *arg);
 
 /**
  * @brief Native function object

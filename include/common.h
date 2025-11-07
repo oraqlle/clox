@@ -13,6 +13,7 @@
 
 #define UINT8_COUNT (UINT8_MAX + 1)
 #define CLOX_INIT_GC_PASS 1048576 // number of bytes allocated before first GC pass
+#define READS_MAX_BUF_SIZE 2048
 
 // Forward declare VM type
 typedef struct VM VM;

@@ -25,13 +25,13 @@ void defineNative(VM *vm, Compiler *compiler, const char *name, NativeFn func,
  *        by the number of clock cycles per second as
  *        defined by CLOCKS_PER_SEC.
  */
-Value clockNative(size_t argCount, Value *args);
+Value clockNative(VM *vm, Compiler *compiler, size_t argCount, Value *args);
 
 /**
  * @brief Reads text data from stdin or from a
  *        file supplied as a path string in a
  *        lox program.
  */
-Value readsNative(size_t argCount, Value *args);
+Value readsNative(VM *vm, Compiler *compiler, size_t argCount, Value *args);
 
 #endif // clox_natives_h

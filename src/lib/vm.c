@@ -100,7 +100,7 @@ static bool callValue(VM *vm, Compiler *compiler, Value callee, uint8_t argCount
                     return false;
                 }
 
-                Value result = native->func(argCount, vm->stackTop - argCount);
+                Value result = native->func(vm, compiler, argCount, vm->stackTop - argCount);
                 vm->stackTop -= argCount + 1;
                 push(vm, result);
                 return true;
@@ -242,6 +242,7 @@ void initVM(VM *vm) {
     vm->initString = copyString(vm, NULL, 4, "init");
 
     defineNative(vm, NULL, "clock", clockNative, 0);
+    defineNative(vm, NULL, "reads", readsNative, 0);
 }
 
 void freeVM(VM *vm, Compiler *compiler) {
