@@ -88,6 +88,12 @@ TEST_CASE("Finding Table Entries", "[table][lookup]") {
     VM vm;
     initVM(&vm);
 
+#ifdef NAN_BOXING
+Value val = NIL_VAL;
+#else
+Value val = {VAL_NIL, {0}};
+#endif
+
     SECTION("Lookup in VM::globals table") {
 
         SECTION("Empty string key") {
@@ -243,6 +249,12 @@ TEST_CASE("Set Table Entries", "[table][entry]") {
 
     VM vm;
     initVM(&vm);
+
+#ifdef NAN_BOXING
+Value val = NIL_VAL;
+#else
+Value val = {VAL_NIL, {0}};
+#endif
 
     SECTION("Setting VM::globals table") {
 
