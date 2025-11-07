@@ -28,7 +28,11 @@ static uint32_t hashStr(const char *key, size_t length) {
 // Test Value has to linked like C so C++
 // compilers do not complain about struct
 // initialisation
+#ifdef NAN_BOXING
+Value val = NIL_VAL;
+#else
 Value val = {VAL_NIL, {0}};
+#endif
 }
 
 TEST_CASE("Finding Interned Strings", "[table][lookup]") {

@@ -83,7 +83,8 @@ TEST_CASE("Construction and registration of reads() native",
          *
          * * Creating ObjNative for reads()
          */
-        REQUIRE(vm.bytesAllocated == bytes_alloc_before + native_size);
+        size_t const expected_bytes_after = bytes_alloc_before + native_size;
+        REQUIRE(vm.bytesAllocated == expected_bytes_after);
     }
 
     /**
@@ -94,6 +95,7 @@ TEST_CASE("Construction and registration of reads() native",
      * initialisation.
      */
     SECTION("Registration of reads() in VM") {
+        SKIP("Registration already occurs during VM init.\nNow tested for in VM init testing.");
         defineNative(&vm, NULL, "reads", readsNative, 0);
 
         /**
@@ -168,7 +170,7 @@ TEST_CASE("Mocked inputs for reads()", "[reads][native][invocation]") {
     };
     // clang-format off
 
-    size_t const bytec_offset = 14; // bytecode instructions
+    size_t const bytec_offset = sizeof(expected_bytecode); // bytecode instructions
 
     SECTION("Plain string input") {
 

@@ -47,7 +47,7 @@ TEST_CASE("VM Initialisation", "[VM][init]") {
      * * Entry for VM::globals table     8x     (24B)         (16B)
      * * Entry for VM::strings table     8x     (24B)         (16B)  +
      * --------------------------------------------------------------
-     *                                          (507B)        (457B)
+     *                                          (585B)        (457B)
      */
     size_t allocation_estimate =
                                 (5   /* "init" */
