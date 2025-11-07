@@ -2,14 +2,15 @@
 #include <time.h>
 
 #include "common.h"
+#include "memory.h"
+#include "natives.h"
 #include "object.h"
 #include "table.h"
-#include "natives.h"
 #include "value.h"
 #include "vm.h"
 
 void defineNative(VM *vm, Compiler *compiler, const char *name, NativeFn func,
-                         uint8_t arity) {
+                  uint8_t arity) {
 
     if (arity == UINT8_MAX) {
         fprintf(stderr, "Can't have more than 255 parameters in native function %s.\n",
@@ -28,15 +29,23 @@ Value clockNative(VM *vm, Compiler *compiler, size_t argCount, Value *args) {
 }
 
 Value readsNative(VM *vm, Compiler *compiler, size_t argCount, Value *args) {
-    static char buf[READS_MAX_BUF_SIZE] = {0};
 
-    int chr;
+    // Larger static buffer to initially read input into
+    static char reads_buf[READS_MAX_BUF_SIZE] = {0};
+
     size_t idx = 0;
+    int in = 0;
 
-    while((chr = fgetc(stdin)) && chr != EOF) {
-        buf[idx] = (char)chr;
+    while ((in = fgetc(stdin)) && (in != EOF) && (in != '\n')) {
+        char chr = (char)in;
+        reads_buf[idx] = chr;
+        idx += 1;
     }
 
-    ObjString *str = takeString(vm, compiler, idx, &buf[0]);
+    char *chars = ALLOCATE(vm, compiler, char, idx + 1);
+    memcpy(chars, &reads_buf[0], idx);
+    chars[idx] = '\0';
+    ObjString *str = takeString(vm, compiler, idx, chars);
+
     return OBJ_VAL(str);
 }

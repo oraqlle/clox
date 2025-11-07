@@ -46,6 +46,8 @@ struct VM {
     size_t greyCount;
     size_t greyCapacity;
     Obj **greyStack;
+
+    char *reads_buf;
 };
 
 /**
