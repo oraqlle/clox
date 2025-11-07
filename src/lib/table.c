@@ -78,6 +78,10 @@ bool tableSet(VM *vm, Compiler *compiler, Table *table, ObjString *key, Value va
         adjustCapacity(vm, compiler, table, capacity);
     }
 
+    if (key->chars == NULL) {
+        return false;
+    }
+
     Entry *entry = findEntry(table->entries, table->capacity, key);
     bool isNewKey = entry->key == NULL;
 

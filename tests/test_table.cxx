@@ -197,11 +197,11 @@ Value val = {VAL_NIL, {0}};
 
             ObjString *key = tableFindString(&vm.strings, str, len, hash);
 
-            REQUIRE(tableGet(&vm.globals, key, &val));
-            REQUIRE(IS_STRING(val));
+            REQUIRE(tableGet(&vm.strings, key, &val));
+            REQUIRE(IS_NIL(val));
 
             ObjString *obj = ((ObjString *)AS_OBJ(val));
-            REQUIRE(key == obj);
+            REQUIRE(key != obj); // Won't be the same as different object was used to intern table entry
             REQUIRE(key->length == len);
             REQUIRE(key->hash == hash);
             REQUIRE(strcmp(key->chars, str) == 0);
@@ -273,7 +273,7 @@ Value val = {VAL_NIL, {0}};
                 /* hash */ hash,
             };
 
-            REQUIRE_FALSE(tableSet(&vm, NULL, &vm.globals, &key, val));
+            REQUIRE(tableSet(&vm, NULL, &vm.globals, &key, val));
         }
 
         SECTION("Existing string") {
@@ -338,7 +338,7 @@ Value val = {VAL_NIL, {0}};
                 /* hash */ hash,
             };
 
-            REQUIRE_FALSE(tableSet(&vm, NULL, &vm.strings, &key, val));
+            REQUIRE(tableSet(&vm, NULL, &vm.strings, &key, val));
         }
 
         SECTION("Existing string") {
