@@ -1,8 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
-#include <cstring>
 
 // Link clox library objects as C and not as C++
 extern "C" {
+#include <string.h>
+
 #include "common.h"
 #include "natives.h"
 #include "object.h"
