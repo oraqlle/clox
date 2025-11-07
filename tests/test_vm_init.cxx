@@ -34,23 +34,35 @@ TEST_CASE("VM Initialisation", "[VM][init]") {
      * memory will be created for the following heap
      * objects:
      *
-     * * ObjString of "init"                (40B)
-     * * Copying of "init" -> "init\0"      (5B)
-     * * ObjString of "clock"               (40B)
-     * * Copying of "clock" -> "clock\0"    (6B)
-     * * ObjNative of clockNative()         (32B)
-     * * Entry for VM::globals table     8x (24B)
-     * * Entry for VM::strings table     8x (24B) +
-     * --------------------------------------------
-     *                                      (507B)
+     *                                      Tagged Union    QNaN Boxed
+     *
+     * * ObjString of "init"                    (40B)
+     * * Copying of "init" -> "init\0"          (5B)
+     * * ObjString of "clock"                   (40B)
+     * * Copying of "clock" -> "clock\0"        (6B)
+     * * ObjNative of clockNative()             (32B)
+     * * ObjString of "reads"                   (40B)
+     * * Copying of "reads" -> "reads\0"        (6B)
+     * * ObjNative of readsNative()             (32B)
+     * * Entry for VM::globals table     8x     (24B)         (16B)
+     * * Entry for VM::strings table     8x     (24B)         (16B)  +
+     * --------------------------------------------------------------
+     *                                          (507B)        (457B)
      */
     size_t allocation_estimate =
                                 (5   /* "init" */
                                + 6   /* "clock" */
-                               + (ObjString_size * 2)
-                               + (ObjNative_size)
+                               + 6   /* "reads" */
+                               + (ObjString_size * 3)
+                               + (ObjNative_size * 2)
                                + (Entry_size * 8)
                                + (Entry_size * 8));
+
+    printf("ObjString Size: %zu\n", ObjString_size);
+    printf("ObjNative Size: %zu\n", ObjNative_size);
+    printf("Entry_size Size: %zu\n", Entry_size);
+    printf("Estimation for bytes allocated: %zu\n", allocation_estimate);
+
     // clang-format on
 
     /**
@@ -77,16 +89,17 @@ TEST_CASE("VM Initialisation", "[VM][init]") {
      * VM::globals Table initialisation.
      * Globals table only has clockNative global
      */
-    REQUIRE(vm.globals.count == 1);
+    REQUIRE(vm.globals.count == 2);
     REQUIRE(vm.globals.capacity == 8);
     REQUIRE(vm.globals.entries != NULL);
 
     /**
      * VM::strings Table initialization.
-     * Strings table contains the "init" string and the
-     * "clock" string for lookup of clockNative
+     * Strings table contains the "init" string,
+     * the "clock" string for lookup of clockNative
+     * the "reads" string for lookup of readsNative
      */
-    REQUIRE(vm.strings.count == 2);
+    REQUIRE(vm.strings.count == 3);
     REQUIRE(vm.strings.capacity == 8);
     REQUIRE(vm.strings.entries != NULL);
 
@@ -105,7 +118,19 @@ TEST_CASE("VM Initialisation", "[VM][init]") {
     Obj *obj = vm.objects;
     REQUIRE(obj != NULL);
 
+    // readsNative
+    REQUIRE(obj->type == ObjType::OBJ_NATIVE);
+    REQUIRE(((ObjNative *)obj)->func == readsNative);
+    REQUIRE(obj->next != NULL);
+
+    // Native "reads" symbol
+    obj = obj->next;
+    REQUIRE(obj->type == ObjType::OBJ_STRING);
+    REQUIRE(strcmp(((ObjString *)obj)->chars, "reads") == 0);
+    REQUIRE(obj->next != NULL);
+
     // clockNative
+    obj = obj->next;
     REQUIRE(obj->type == ObjType::OBJ_NATIVE);
     REQUIRE(((ObjNative *)obj)->func == clockNative);
     REQUIRE(obj->next != NULL);
@@ -131,7 +156,8 @@ TEST_CASE("VM Initialisation", "[VM][init]") {
 
         if (entry->key != NULL) {
             REQUIRE(((strcmp(entry->key->chars, "init") == 0) ||
-                     (strcmp(entry->key->chars, "clock") == 0)));
+                     (strcmp(entry->key->chars, "clock") == 0) ||
+                     (strcmp(entry->key->chars, "reads") == 0)));
         }
 
         REQUIRE(IS_NIL(entry->value));

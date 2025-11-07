@@ -1,14 +1,13 @@
 #include <catch2/catch_test_macros.hpp>
-#include <cstdio>
 
 // Link clox library objects as C and not as C++
 extern "C" {
+#include <stdio.h>
 
 #include "chunk.h"
 #include "natives.h"
 #include "object.h"
 #include "vm.h"
-}
 
 /**
  * Writes to stdin to mock user input to a LOx program
@@ -17,6 +16,7 @@ static void send_mock_to_stdin(const char *text) {
     freopen("/tmp/clox_test.txt", "w+", stdin);
     fprintf(stdin, "%s\n", text);
     freopen("/dev/stdin", "r", stdin);
+}
 }
 
 /**

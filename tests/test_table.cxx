@@ -5,8 +5,8 @@ extern "C" {
 #include <string.h>
 
 #include "common.h"
-#include "object.h"
 #include "natives.h"
+#include "object.h"
 #include "table.h"
 #include "value.h"
 #include "vm.h"
@@ -24,6 +24,11 @@ static uint32_t hashStr(const char *key, size_t length) {
 
     return hash;
 }
+
+// Test Value has to linked like C so C++
+// compilers do not complain about struct
+// initialisation
+Value val = {VAL_NIL, {0}};
 }
 
 TEST_CASE("Finding Interned Strings", "[table][lookup]") {
@@ -86,7 +91,6 @@ TEST_CASE("Finding Table Entries", "[table][lookup]") {
             const char *str = "";
             size_t len = strlen(str);
             uint32_t hash = hashStr(str, len);
-            Value val = NIL_VAL;
 
             ObjString key = {
                 /* obj */ {/* type */ OBJ_STRING,
@@ -106,13 +110,12 @@ TEST_CASE("Finding Table Entries", "[table][lookup]") {
             const char *str = "clock";
             size_t len = strlen(str);
             uint32_t hash = hashStr(str, len);
-            Value val = NIL_VAL;
 
             ObjString *key = tableFindString(&vm.strings, str, len, hash);
 
             REQUIRE(tableGet(&vm.globals, key, &val));
             REQUIRE(IS_NATIVE(val));
-            
+
             ObjNative *ntv = ((ObjNative *)AS_OBJ(val));
             REQUIRE(ntv->arity == 0);
             REQUIRE(ntv->func == clockNative);
@@ -123,7 +126,6 @@ TEST_CASE("Finding Table Entries", "[table][lookup]") {
             const char *str = "format";
             size_t len = strlen(str);
             uint32_t hash = hashStr(str, len);
-            Value val = NIL_VAL;
 
             ObjString key = {
                 /* obj */ {/* type */ OBJ_STRING,
@@ -141,7 +143,6 @@ TEST_CASE("Finding Table Entries", "[table][lookup]") {
         SECTION("Invalid string key") {
 
             const char *str = NULL;
-            Value val = NIL_VAL;
 
             ObjString key = {
                 /* obj */ {/* type */ OBJ_STRING,
@@ -164,7 +165,6 @@ TEST_CASE("Finding Table Entries", "[table][lookup]") {
             const char *str = "";
             size_t len = strlen(str);
             uint32_t hash = hashStr(str, len);
-            Value val = NIL_VAL;
 
             ObjString key = {
                 /* obj */ {/* type */ OBJ_STRING,
@@ -184,13 +184,12 @@ TEST_CASE("Finding Table Entries", "[table][lookup]") {
             const char *str = "clock";
             size_t len = strlen(str);
             uint32_t hash = hashStr(str, len);
-            Value val = NIL_VAL;
 
             ObjString *key = tableFindString(&vm.strings, str, len, hash);
 
             REQUIRE(tableGet(&vm.globals, key, &val));
             REQUIRE(IS_STRING(val));
-            
+
             ObjString *obj = ((ObjString *)AS_OBJ(val));
             REQUIRE(key == obj);
             REQUIRE(key->length == len);
@@ -203,7 +202,6 @@ TEST_CASE("Finding Table Entries", "[table][lookup]") {
             const char *str = "format";
             size_t len = strlen(str);
             uint32_t hash = hashStr(str, len);
-            Value val = NIL_VAL;
 
             ObjString key = {
                 /* obj */ {/* type */ OBJ_STRING,
@@ -221,7 +219,6 @@ TEST_CASE("Finding Table Entries", "[table][lookup]") {
         SECTION("Invalid string key") {
 
             const char *str = NULL;
-            Value val = NIL_VAL;
 
             ObjString key = {
                 /* obj */ {/* type */ OBJ_STRING,
@@ -250,7 +247,6 @@ TEST_CASE("Set Table Entries", "[table][entry]") {
             const char *str = "";
             size_t len = strlen(str);
             uint32_t hash = hashStr(str, len);
-            Value val = NIL_VAL;
 
             ObjString key = {
                 /* obj */ {/* type */ OBJ_STRING,
@@ -269,7 +265,6 @@ TEST_CASE("Set Table Entries", "[table][entry]") {
             const char *str = "clock";
             size_t len = strlen(str);
             uint32_t hash = hashStr(str, len);
-            Value val = NIL_VAL;
             ObjString *key = tableFindString(&vm.strings, str, len, hash);
 
             REQUIRE_FALSE(tableSet(&vm, NULL, &vm.globals, key, val));
@@ -280,7 +275,6 @@ TEST_CASE("Set Table Entries", "[table][entry]") {
             const char *str = "format";
             size_t len = strlen(str);
             uint32_t hash = hashStr(str, len);
-            Value val = NIL_VAL;
 
             ObjString key = {
                 /* obj */ {/* type */ OBJ_STRING,
@@ -297,7 +291,6 @@ TEST_CASE("Set Table Entries", "[table][entry]") {
         SECTION("Invalid string key") {
 
             const char *str = NULL;
-            Value val = NIL_VAL;
 
             ObjString key = {
                 /* obj */ {/* type */ OBJ_STRING,
@@ -319,7 +312,6 @@ TEST_CASE("Set Table Entries", "[table][entry]") {
             const char *str = "";
             size_t len = strlen(str);
             uint32_t hash = hashStr(str, len);
-            Value val = NIL_VAL;
 
             ObjString key = {
                 /* obj */ {/* type */ OBJ_STRING,
@@ -343,7 +335,6 @@ TEST_CASE("Set Table Entries", "[table][entry]") {
             const char *str = "clock";
             size_t len = strlen(str);
             uint32_t hash = hashStr(str, len);
-            Value val = NIL_VAL;
             ObjString *key = tableFindString(&vm.strings, str, len, hash);
 
             REQUIRE_FALSE(tableSet(&vm, NULL, &vm.strings, key, val));
@@ -354,7 +345,6 @@ TEST_CASE("Set Table Entries", "[table][entry]") {
             const char *str = "format";
             size_t len = strlen(str);
             uint32_t hash = hashStr(str, len);
-            Value val = NIL_VAL;
 
             ObjString key = {
                 /* obj */ {/* type */ OBJ_STRING,
@@ -371,7 +361,6 @@ TEST_CASE("Set Table Entries", "[table][entry]") {
         SECTION("Invalid string key") {
 
             const char *str = NULL;
-            Value val = NIL_VAL;
 
             ObjString key = {
                 /* obj */ {/* type */ OBJ_STRING,
@@ -386,4 +375,3 @@ TEST_CASE("Set Table Entries", "[table][entry]") {
         }
     }
 }
-
