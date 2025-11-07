@@ -73,6 +73,13 @@ if(CLOX_DEVELOPER_MODE)
 
     catch_discover_tests(clox_test_vm_init)
 
+    # ---- Testing Table Inserts and Lookups
+    add_executable(clox_test_table tests/test_table.cxx)
+    target_link_libraries(clox_test_table PRIVATE clox_lib)
+    target_link_libraries(clox_test_table PRIVATE Catch2::Catch2WithMain)
+
+    catch_discover_tests(clox_test_table)
+
     # ---- Testing reads() ----
     add_executable(clox_test_native_reads tests/test_native_reads.cxx)
     target_link_libraries(clox_test_native_reads PRIVATE clox_lib)
